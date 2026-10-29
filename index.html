@@ -1,125 +1,900 @@
-<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark light"><meta name="description" content="Az Data Structures Lab, a single-file course for data structures"><title>Az Data Structures Lab</title>
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="description" content="Az Data Structures Lab, a single-file course for data structures">
+<title>Az Data Structures Lab</title>
 <style>
-:root{color-scheme:dark;--bg:#111722;--panel:#192230;--panel2:#202b3a;--panel3:#141c27;--line:#2c394b;--line2:#3b4b61;--text:#e8eef7;--muted:#a7b4c7;--subtle:#8190a5;--accent:#8ab4f8;--strong:#c9ddff;--good:#9ed7bd;--warn:#edc477;--bad:#ff929e;--shadow:none;--radius:13px}
-:root[data-theme=light]{color-scheme:light;--bg:#f4f6f8;--panel:#fff;--panel2:#f7f9fb;--panel3:#f0f4f8;--line:#dce2e9;--line2:#cbd4df;--text:#17212d;--muted:#596a7e;--subtle:#718197;--accent:#315fa2;--strong:#244a82;--good:#176b4c;--warn:#8c5c04;--bad:#b33143;--shadow:0 8px 24px rgba(20,35,50,.05)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button,a,select{touch-action:manipulation}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}a{color:var(--accent);text-decoration:none}.muted{color:var(--muted)}.mono,code,pre,textarea{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
-.topbar{height:64px;position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:18px;padding:0 22px;background:var(--bg);border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:10px;color:var(--text)}.brand-mark{width:34px;height:34px;border:1px solid var(--line2);border-radius:10px;background:var(--panel2);display:grid;place-items:center;color:var(--strong);font-weight:850;font-size:15px}.brand strong{display:block;font-size:14px;line-height:1.2}.brand small{display:block;font-size:10px;letter-spacing:.14em;color:var(--muted);margin-top:2px}
-.top-meta{flex:1;color:var(--subtle);font-size:12px;letter-spacing:.02em}
-.top-actions{display:flex;align-items:center;gap:7px}.top-actions label{font-size:11px;color:var(--muted)}
-select,.btn{border:1px solid var(--line2);background:var(--panel3);color:var(--text);border-radius:8px;padding:8px 11px;font-size:12px}.btn{font-weight:600;white-space:nowrap}.btn:hover{border-color:var(--accent);color:var(--strong)}.btn.primary{background:var(--accent);color:#10203a;border-color:var(--accent)}:root[data-theme=light] .btn.primary{color:white}
-.layout{display:grid;grid-template-columns:264px minmax(420px,1fr);max-width:1500px;margin:auto;min-height:calc(100vh - 64px)}
-.sidebar{position:sticky;top:64px;height:calc(100vh - 64px);overflow:auto;border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column}
-.side-title{display:flex;justify-content:space-between;color:var(--subtle);font-size:10px;letter-spacing:.14em;font-weight:800;padding:0 4px 12px}
-.pill,.tag{border:1px solid var(--line2);border-radius:6px;padding:3px 7px;font-size:10px;color:var(--muted);white-space:nowrap}
-.search{display:flex;gap:7px;align-items:center;border:1px solid var(--line);border-radius:9px;background:var(--panel3);height:39px;padding:0 10px;margin-bottom:10px}
-.search input{min-width:0;width:100%;background:transparent;border:0;outline:0;color:var(--text);font-size:12px}
-.search kbd{border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--subtle);font-size:10px}
-.filter{display:block;color:var(--subtle);font-size:11px;margin-bottom:12px}.filter select{display:block;width:100%;max-width:none;margin-top:5px;padding:7px}
-.tree{display:flex;flex-direction:column;gap:12px}
-.group-label{display:flex;justify-content:space-between;color:var(--subtle);font-size:10px;font-weight:800;letter-spacing:.08em;padding:4px 5px}
-.link{width:100%;text-align:left;display:flex;gap:8px;align-items:center;background:transparent;border:1px solid transparent;color:var(--muted);padding:7px 8px;border-radius:8px;min-height:34px}
-.link .num{font:10px ui-monospace,monospace;color:var(--subtle);width:19px;flex:none}
-.link .name{font-size:12px;flex:1}.link .done{color:var(--good)}
+/* ============================================================
+   DESIGN TOKENS — Aznur Visual System
+   ============================================================ */
+:root{
+  --font:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius:4px;
+  --radius-sm:3px;
+  --radius-lg:6px;
+  color-scheme:dark;
+
+  /* Dark theme (default) */
+  --bg:#161313;
+  --panel:#1c1818;
+  --panel2:#211d1d;
+  --panel3:#211d1d;
+  --line:#302c2c;
+  --line2:#454040;
+  --text:#f1eeee;
+  --muted:#9a9898;
+  --subtle:#646262;
+  --accent:#f59e0b;
+  --accent-hover:#d97706;
+  --strong:#f1eeee;
+  --good:#10b981;
+  --warn:#f59e0b;
+  --bad:#f87171;
+  --shadow:none;
+
+  /* Visual Lab — dark stage, always dark */
+  --lab-bg:#141110;
+  --lab-deep:#0f0d0b;
+  --lab-toolbar:#1a1613;
+  --lab-border:#2a2620;
+  --lab-text:#f5f5f4;
+  --lab-muted:#a8a29e;
+  --lab-amber:#f59e0b;
+}
+:root[data-theme=light]{
+  color-scheme:light;
+  --bg:#fdfcfc;
+  --panel:#faf8f7;
+  --panel2:#f4f0ef;
+  --panel3:#f4f0ef;
+  --line:#dcd9d9;
+  --line2:#c9c4c4;
+  --text:#201d1d;
+  --muted:#646262;
+  --subtle:#9a9898;
+  --accent:#b45309;
+  --accent-hover:#92400e;
+  --strong:#201d1d;
+  --good:#10b981;
+  --warn:#b45309;
+  --bad:#b91c1c;
+  --shadow:none;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font:13.5px/1.55 var(--font);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-variant-numeric:tabular-nums;
+}
+button,input,select,textarea{font:inherit;font-family:var(--font)}
+button{cursor:pointer}
+button,a,select{touch-action:manipulation}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+  border-radius:var(--radius-sm);
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-hover);text-decoration:underline}
+.muted{color:var(--muted)}
+.mono,code,pre,textarea{font-family:var(--font)}
+h1,h2,h3,h4{font-weight:600;letter-spacing:-0.01em}
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+.topbar{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;gap:16px;
+  height:56px;padding:0 20px;
+  background:var(--bg);
+  border-bottom:1px solid var(--line);
+}
+.brand{
+  display:flex;align-items:baseline;gap:6px;
+  color:var(--text);text-decoration:none;
+  min-width:0;
+  font-size:12.5px;
+}
+.brand:hover{text-decoration:none}
+.brand strong{font-weight:600;font-size:12.5px;color:var(--text);}
+.brand-slash{color:var(--subtle);}
+.brand-title{color:var(--muted);}
+
+.top-meta{
+  flex:1;min-width:0;
+  color:var(--subtle);
+  font-size:10.5px;
+  letter-spacing:.02em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.top-actions{display:flex;align-items:center;gap:6px;flex:none}
+.top-actions label{font-size:10px;color:var(--subtle);text-transform:uppercase;letter-spacing:.1em}
+
+/* ============================================================
+   CONTROLS
+   ============================================================ */
+select,.btn{
+  border:1px solid var(--line2);
+  background:var(--panel3);
+  color:var(--text);
+  border-radius:var(--radius);
+  padding:6px 10px;
+  font-size:11.5px;
+  line-height:1.3;
+}
+.btn{font-weight:500;white-space:nowrap;transition:border-color .12s, color .12s}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{
+  background:var(--accent);
+  color:#161313;
+  border-color:var(--accent);
+}
+.btn.primary:hover{
+  background:var(--accent-hover);
+  border-color:var(--accent-hover);
+  color:#161313;
+}
+:root[data-theme=light] .btn.primary{color:#fdfcfc}
+:root[data-theme=light] .btn.primary:hover{color:#fdfcfc}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.layout{
+  display:grid;
+  grid-template-columns:256px minmax(0,1fr);
+  max-width:1440px;
+  margin:0 auto;
+  min-height:calc(100vh - 56px);
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.sidebar{
+  position:sticky;top:56px;
+  height:calc(100vh - 56px);
+  overflow:auto;
+  border-right:1px solid var(--line);
+  padding:18px 12px;
+  display:flex;flex-direction:column;
+  min-width:0;
+}
+.side-title{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 4px 10px;
+  color:var(--subtle);
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.pill,.tag{
+  border:1px solid var(--line2);
+  border-radius:var(--radius-sm);
+  padding:2px 6px;
+  font-size:9.5px;
+  color:var(--muted);
+  white-space:nowrap;
+  font-weight:500;
+  letter-spacing:.02em;
+}
+.tag.good{color:var(--good);border-color:color-mix(in srgb,var(--good) 40%,var(--line2))}
+.tag.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,var(--line2))}
+
+.search{
+  display:flex;gap:6px;align-items:center;
+  height:32px;padding:0 8px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:var(--panel3);
+  margin-bottom:10px;
+  color:var(--subtle);
+  font-size:11px;
+}
+.search input{
+  width:100%;min-width:0;
+  background:transparent;border:0;outline:0;
+  color:var(--text);
+  font-size:11.5px;
+  padding:0;
+}
+.search input::placeholder{color:var(--subtle)}
+.search kbd{
+  border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+  padding:0 5px;
+  font-size:9.5px;
+  color:var(--subtle);
+  background:var(--bg);
+}
+
+.filter{
+  display:block;
+  color:var(--subtle);
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+  font-weight:500;
+}
+.filter select{
+  display:block;width:100%;
+  margin-top:5px;
+  padding:6px 8px;
+  font-size:11px;
+  text-transform:none;
+  letter-spacing:0;
+}
+
+.tree{display:flex;flex-direction:column;gap:12px;min-width:0}
+.group-label{
+  display:flex;justify-content:space-between;
+  color:var(--subtle);
+  font-size:9px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 6px;
+}
+.link{
+  display:flex;gap:8px;align-items:center;
+  width:100%;text-align:left;
+  background:transparent;
+  border:1px solid transparent;
+  color:var(--muted);
+  padding:6px 8px;
+  border-radius:var(--radius);
+  min-height:30px;
+  transition:background .1s, color .1s, border-color .1s;
+}
+.link .num{
+  font-size:9.5px;
+  color:var(--subtle);
+  width:20px;flex:none;
+  font-variant-numeric:tabular-nums;
+}
+.link .name{
+  flex:1;min-width:0;
+  font-size:11.5px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.link .done{color:var(--good);font-size:11px}
 .link:hover{background:var(--panel2);color:var(--text)}
-.link.active{background:var(--panel2);border-color:var(--line2);color:var(--strong)}
-.side-foot{margin-top:auto;border-top:1px solid var(--line);padding-top:14px}
-.progress-row{display:flex;justify-content:space-between;color:var(--subtle);font-size:11px;margin-bottom:7px}
-.progress{height:5px;background:var(--panel2);border-radius:9px;overflow:hidden}.progress>div{height:100%;width:0;background:var(--accent);transition:width .25s}
-.side-actions{display:flex;gap:6px;margin-top:12px}.side-actions .btn{flex:1;padding:7px;font-size:11px}
-main{max-width:920px;width:100%;min-width:0;margin:auto;padding:28px 30px 40px}
-.breadcrumb{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--subtle);margin-bottom:16px}
-.header{padding:2px 2px 22px;border-bottom:1px solid var(--line);margin-bottom:20px}
-.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.13em;font-weight:800;color:var(--accent);margin-bottom:9px}
-.header h1{font-size:clamp(27px,3vw,36px);line-height:1.12;letter-spacing:-.035em;margin:0 0 10px;font-weight:700}
-.header p{font-size:14.5px;color:var(--muted);margin:0 0 14px;max-width:740px}
-.tags{display:flex;flex-wrap:wrap;gap:6px}
-.tag.good{color:var(--good)}.tag.warn{color:var(--warn)}
-.header-actions{display:flex;gap:7px;margin-top:16px;flex-wrap:wrap}
-.panel{border:1px solid var(--line);background:var(--panel);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow)}
-.panel-head{padding:18px 20px 0}.panel-head h2{font-size:15px;margin:0 0 4px;letter-spacing:-.01em;font-weight:650}.panel-head p{font-size:12.5px;color:var(--muted);margin:0}
-.body{padding:16px 20px 20px}
-.idea{display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:20px}
-.idea p{font-size:13.5px;color:var(--muted);margin:0 0 13px}
-.mental{background:var(--panel3);border:1px solid var(--line);border-radius:10px;padding:13px}
-.mental small{color:var(--subtle);font-size:10px;letter-spacing:.11em;text-transform:uppercase}
-.mental strong{display:block;margin:6px 0;font-size:13px;color:var(--strong)}
-.mental p{font-size:12px;color:var(--muted);margin:0}
-.takeaway{padding:11px 13px;border:1px solid var(--line2);background:var(--panel3);border-radius:8px;color:var(--strong);font-size:12.5px;line-height:1.6}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.mini{background:var(--panel3);border:1px solid var(--line);border-radius:10px;padding:13px}
-.mini h3{font-size:12px;margin:0 0 7px;font-weight:650}
-.mini p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.6}
-.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
-.steps li{counter-increment:s;display:flex;gap:10px;color:var(--muted);font-size:12.5px;line-height:1.55}
-.steps li:before{content:counter(s);width:23px;height:23px;flex:none;display:grid;place-items:center;border:1px solid var(--line2);background:var(--panel3);border-radius:6px;color:var(--accent);font:11px ui-monospace,monospace}
-.pseudo{white-space:pre-wrap;overflow:auto;background:var(--panel3);border:1px solid var(--line);border-radius:10px;padding:14px;font:12px/1.75 ui-monospace,monospace;color:var(--strong);margin:0}
-.table-wrap{overflow:auto}
-table{border-collapse:collapse;width:100%;font-size:12.5px}
-th,td{border-bottom:1px solid var(--line);text-align:left;padding:9px 10px;vertical-align:top}
-th{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--subtle);font-weight:700}
+.link.active{
+  background:var(--panel2);
+  border-color:var(--line2);
+  color:var(--text);
+}
+.link.active .name{color:var(--text);font-weight:500}
+
+.side-foot{
+  margin-top:auto;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+}
+.progress-row{
+  display:flex;justify-content:space-between;
+  color:var(--subtle);
+  font-size:10px;
+  letter-spacing:.06em;
+  margin-bottom:6px;
+  text-transform:uppercase;
+}
+.progress-row strong{color:var(--text);font-weight:500}
+.progress{
+  height:4px;background:var(--panel3);
+  border-radius:2px;overflow:hidden;
+}
+.progress>div{
+  height:100%;width:0;
+  background:var(--accent);
+  transition:width .25s ease;
+}
+.side-actions{display:flex;gap:6px;margin-top:10px}
+.side-actions .btn{flex:1;padding:5px 6px;font-size:10.5px}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+main{
+  max-width:900px;width:100%;min-width:0;
+  margin:0 auto;
+  padding:24px 28px 40px;
+}
+.breadcrumb{
+  font-size:9.5px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--subtle);
+  margin-bottom:14px;
+}
+.header{
+  padding:2px 0 20px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:18px;
+}
+.eyebrow{
+  font-size:9.5px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-weight:600;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.header h1{
+  font-size:22px;
+  line-height:1.2;
+  margin:0 0 10px;
+  font-weight:600;
+}
+.header p{
+  font-size:13px;
+  color:var(--muted);
+  margin:0 0 12px;
+  max-width:720px;
+  line-height:1.6;
+}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.header-actions{
+  display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;
+}
+
+/* ============================================================
+   PANELS
+   ============================================================ */
+.panel{
+  border:1px solid var(--line);
+  background:var(--panel);
+  border-radius:var(--radius);
+  margin-bottom:14px;
+  overflow:hidden;
+}
+.panel-head{padding:14px 16px 0}
+.panel-head h2{
+  font-size:12.5px;
+  margin:0 0 3px;
+  font-weight:600;
+  letter-spacing:0;
+}
+.panel-head p{
+  font-size:11.5px;
+  color:var(--muted);
+  margin:0;
+  line-height:1.55;
+}
+.body{padding:12px 16px 16px}
+
+.idea{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 200px;
+  gap:18px;
+}
+.idea p{font-size:12.5px;color:var(--muted);margin:0 0 11px;line-height:1.6}
+.mental{
+  background:var(--panel3);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:11px;
+}
+.mental small{
+  display:block;
+  color:var(--subtle);
+  font-size:9px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-weight:600;
+}
+.mental strong{
+  display:block;
+  margin:5px 0;
+  font-size:12px;
+  color:var(--text);
+  font-weight:600;
+  line-height:1.4;
+}
+.mental p{font-size:11px;color:var(--muted);margin:0;line-height:1.55}
+
+.takeaway{
+  padding:10px 12px;
+  border:1px solid var(--line2);
+  background:var(--panel3);
+  border-radius:var(--radius);
+  color:var(--text);
+  font-size:12px;
+  line-height:1.6;
+}
+.takeaway strong{color:var(--accent);font-weight:600}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.mini{
+  background:var(--panel3);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:11px 12px;
+}
+.mini h3{font-size:11.5px;margin:0 0 6px;font-weight:600}
+.mini p{font-size:11.5px;color:var(--muted);margin:0;line-height:1.6}
+
+.steps{
+  counter-reset:s;
+  list-style:none;padding:0;margin:0;
+  display:flex;flex-direction:column;gap:7px;
+}
+.steps li{
+  counter-increment:s;
+  display:flex;gap:9px;
+  font-size:11.5px;
+  color:var(--muted);
+  line-height:1.55;
+}
+.steps li:before{
+  content:counter(s);
+  flex:none;
+  width:20px;height:20px;
+  display:grid;place-items:center;
+  border:1px solid var(--line2);
+  border-radius:var(--radius-sm);
+  background:var(--panel3);
+  color:var(--accent);
+  font-size:10px;
+  font-variant-numeric:tabular-nums;
+  margin-top:1px;
+}
+
+.pseudo{
+  white-space:pre-wrap;
+  overflow:auto;
+  background:var(--lab-bg);
+  color:var(--lab-text);
+  border:1px solid var(--lab-border);
+  border-radius:var(--radius);
+  padding:12px 14px;
+  font:11.5px/1.7 var(--font);
+  margin:0;
+}
+
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:var(--radius);margin-top:14px}
+table{border-collapse:collapse;width:100%;font-size:11.5px}
+th,td{
+  border-bottom:1px solid var(--line);
+  padding:7px 10px;
+  text-align:left;
+  vertical-align:top;
+}
+tr:last-child td{border-bottom:0}
+th{
+  font-size:9.5px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--subtle);
+  font-weight:600;
+  background:var(--panel3);
+}
 td{color:var(--muted)}
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.tile{padding:12px;background:var(--panel3);border:1px solid var(--line);border-radius:9px}
-.tile span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--subtle)}
-.tile strong{display:block;color:var(--strong);font:700 14px ui-monospace,monospace;margin-top:6px}
-.tile small{font-size:10.5px;color:var(--muted);display:block;margin-top:2px}
-.notice{padding:12px 13px;background:var(--panel3);border:1px solid color-mix(in srgb,var(--warn) 35%,var(--line));border-radius:9px;font-size:12.5px;color:var(--muted);line-height:1.65}
-.notice strong{color:var(--warn)}
-.notice.info{border-color:var(--line2)}.notice.info strong{color:var(--accent)}
-.lab-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.lab-top label{font-size:11.5px;color:var(--muted)}
-.lab-input{width:100%;min-height:80px;resize:vertical;background:var(--panel3);border:1px solid var(--line2);border-radius:9px;padding:11px;color:var(--text);font:12px/1.65 ui-monospace,monospace;margin:11px 0}
-.lab-output{padding:13px;background:var(--panel3);border:1px solid var(--line);border-radius:9px;min-height:70px;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--strong);font:12px/1.75 ui-monospace,monospace;overflow-x:auto}
-.lab-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.label{font-size:10px;color:var(--subtle);font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}
-.code-head{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:11px 13px;background:var(--panel3);border-bottom:1px solid var(--line)}
-.code-editor{display:block;width:100%;min-height:220px;resize:vertical;border:0;border-radius:0;background:var(--panel3);color:var(--text);padding:15px;font:12px/1.7 ui-monospace,monospace;outline:0}
-.code-foot{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:9px 13px;color:var(--subtle);font-size:10px;border-top:1px solid var(--line)}
-.practice{border:1px solid var(--line);background:var(--panel3);border-radius:9px;padding:13px}
-.practice summary{cursor:pointer;font-size:12.5px;font-weight:600}
-.practice p{font-size:12.5px;color:var(--muted);margin:10px 0 0;line-height:1.65}
-.references{display:flex;flex-direction:column;gap:8px}
-.references a{font-size:12.5px;overflow-wrap:anywhere}
-.home-hero{padding:30px;background:linear-gradient(150deg,var(--panel),var(--panel3));border:1px solid var(--line);border-radius:14px;margin-bottom:16px}
-.home-hero h1{font-size:clamp(30px,3.6vw,42px);line-height:1.1;letter-spacing:-.04em;margin:8px 0 14px;font-weight:700}
-.home-hero p{color:var(--muted);font-size:14px;max-width:720px;margin:0 0 18px;line-height:1.65}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
-.stat strong{display:block;font:700 22px ui-monospace,monospace;color:var(--strong)}
-.stat span{display:block;font-size:10.5px;color:var(--muted);margin-top:3px}
-.chapter-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.chapter-card{padding:14px;text-align:left;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text)}
-.chapter-card:hover{border-color:var(--accent)}
-.chapter-card .num{font-size:10px;color:var(--accent);letter-spacing:.09em;font-weight:800}
-.chapter-card strong{display:block;font-size:13px;margin:5px 0;font-weight:650}
-.chapter-card p{font-size:11.5px;color:var(--muted);margin:0;line-height:1.55}
-.toast{position:fixed;z-index:99;bottom:20px;left:50%;transform:translate(-50%,10px);opacity:0;pointer-events:none;background:var(--panel);border:1px solid var(--line2);border-radius:9px;padding:11px 15px;box-shadow:var(--shadow);font-size:12px;transition:opacity .14s,transform .14s}
+
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tile{
+  padding:10px 11px;
+  background:var(--panel3);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  min-width:0;
+}
+.tile span{
+  display:block;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--subtle);
+  font-weight:600;
+  margin-bottom:4px;
+}
+.tile strong{
+  display:block;
+  color:var(--text);
+  font-size:12.5px;
+  font-weight:600;
+  font-variant-numeric:tabular-nums;
+  overflow-wrap:anywhere;
+}
+.tile small{display:block;font-size:10.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+
+.notice{
+  padding:10px 12px;
+  background:var(--panel3);
+  border:1px solid color-mix(in srgb,var(--warn) 32%,var(--line));
+  border-radius:var(--radius);
+  font-size:11.5px;
+  color:var(--muted);
+  line-height:1.6;
+}
+.notice strong{color:var(--warn);font-weight:600}
+.notice.info{border-color:var(--line2)}
+.notice.info strong{color:var(--accent)}
+
+/* ============================================================
+   VISUAL LAB — dark stage
+   ============================================================ */
+.lab-top{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.lab-top label{
+  font-size:10px;
+  color:var(--subtle);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:600;
+  margin-right:4px;
+}
+.lab-input{
+  display:block;width:100%;
+  min-height:90px;
+  resize:vertical;
+  background:var(--lab-bg);
+  border:1px solid var(--lab-border);
+  border-radius:var(--radius);
+  padding:10px 12px;
+  color:var(--lab-text);
+  font:11.5px/1.6 var(--font);
+  margin:10px 0;
+}
+.lab-input:focus-visible{outline-color:var(--lab-amber);border-color:var(--lab-amber)}
+.lab-output{
+  padding:12px 14px;
+  background:var(--lab-deep);
+  border:1px solid var(--lab-border);
+  border-radius:var(--radius);
+  min-height:80px;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  color:var(--lab-text);
+  font:11.5px/1.7 var(--font);
+  overflow-x:auto;
+}
+.lab-cols{
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+  gap:10px;
+  margin-top:12px;
+}
+.label{
+  font-size:9px;
+  color:var(--subtle);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-weight:600;
+  margin-bottom:5px;
+}
+
+/* ============================================================
+   CODE WORKSHOP — dark stage
+   ============================================================ */
+.code-head{
+  display:flex;gap:8px;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;
+  padding:9px 12px;
+  background:var(--lab-toolbar);
+  border-bottom:1px solid var(--lab-border);
+}
+.code-head .tag{
+  border-color:var(--lab-border);
+  color:var(--lab-muted);
+  background:transparent;
+}
+.code-head .tag + .tag{margin-left:2px}
+.code-head .btn{
+  background:transparent;
+  border-color:var(--lab-border);
+  color:var(--lab-text);
+  padding:4px 8px;
+  font-size:10.5px;
+}
+.code-head .btn:hover{border-color:var(--lab-amber);color:var(--lab-amber)}
+.code-editor{
+  display:block;width:100%;
+  min-height:220px;
+  resize:vertical;
+  border:0;border-radius:0;
+  background:var(--lab-bg);
+  color:var(--lab-text);
+  padding:14px 16px;
+  font:11.5px/1.7 var(--font);
+  outline:0;
+  font-variant-numeric:tabular-nums;
+}
+.code-editor:focus-visible{outline:2px solid var(--lab-amber);outline-offset:-2px}
+.code-foot{
+  display:flex;justify-content:space-between;gap:8px;align-items:center;
+  padding:8px 12px;
+  color:var(--lab-muted);
+  font-size:10px;
+  border-top:1px solid var(--lab-border);
+  background:var(--lab-toolbar);
+  flex-wrap:wrap;
+}
+
+/* ============================================================
+   MISC CONTENT
+   ============================================================ */
+.practice{
+  border:1px solid var(--line);
+  background:var(--panel3);
+  border-radius:var(--radius);
+  padding:11px 12px;
+}
+.practice summary{
+  cursor:pointer;
+  font-size:12px;
+  font-weight:600;
+  list-style:none;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.practice summary::-webkit-details-marker{display:none}
+.practice summary::before{
+  content:"?";
+  flex:none;
+  width:18px;height:18px;
+  display:grid;place-items:center;
+  border:1px solid var(--line2);
+  border-radius:var(--radius-sm);
+  color:var(--accent);
+  font-size:10px;
+  font-weight:600;
+}
+.practice[open] summary::before{content:"…"}
+.practice p{
+  font-size:11.5px;
+  color:var(--muted);
+  margin:9px 0 0;
+  line-height:1.65;
+}
+
+.references{display:flex;flex-direction:column;gap:6px}
+.references a{
+  font-size:11.5px;
+  overflow-wrap:anywhere;
+  line-height:1.55;
+}
+.references a:hover{text-decoration:underline}
+
+/* ============================================================
+   HOME
+   ============================================================ */
+.home-hero{
+  padding:26px 26px 24px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  margin-bottom:14px;
+}
+.home-hero h1{
+  font-size:clamp(20px,2.4vw,26px);
+  line-height:1.25;
+  letter-spacing:-0.015em;
+  margin:6px 0 12px;
+  font-weight:600;
+}
+.home-hero p{
+  color:var(--muted);
+  font-size:12.5px;
+  max-width:680px;
+  margin:0 0 16px;
+  line-height:1.65;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-bottom:14px;
+}
+.stat{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:11px 12px;
+  min-width:0;
+}
+.stat strong{
+  display:block;
+  font-size:18px;
+  color:var(--text);
+  font-weight:600;
+  font-variant-numeric:tabular-nums;
+  line-height:1.1;
+}
+.stat span{
+  display:block;
+  font-size:9.5px;
+  color:var(--subtle);
+  margin-top:4px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:500;
+}
+.chapter-cards{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+.chapter-card{
+  padding:12px 13px;
+  text-align:left;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  color:var(--text);
+  transition:border-color .12s,background .12s;
+  min-width:0;
+}
+.chapter-card:hover{
+  border-color:var(--accent);
+  background:var(--panel2);
+}
+.chapter-card .num{
+  font-size:9px;
+  color:var(--accent);
+  letter-spacing:.1em;
+  font-weight:600;
+  text-transform:uppercase;
+}
+.chapter-card strong{
+  display:block;
+  font-size:12px;
+  margin:4px 0;
+  font-weight:600;
+  line-height:1.4;
+}
+.chapter-card p{
+  font-size:11px;
+  color:var(--muted);
+  margin:0;
+  line-height:1.55;
+}
+
+/* ============================================================
+   TOAST & FOOTER
+   ============================================================ */
+.toast{
+  position:fixed;z-index:99;
+  bottom:18px;left:50%;
+  transform:translate(-50%,10px);
+  opacity:0;pointer-events:none;
+  background:var(--panel);
+  border:1px solid var(--line2);
+  border-radius:var(--radius);
+  padding:9px 14px;
+  font-size:11.5px;
+  color:var(--text);
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  transition:opacity .14s, transform .14s;
+  max-width:calc(100vw - 32px);
+}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-.footer{font-size:10.5px;color:var(--subtle);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:6px 2px 14px;align-items:center}
-.ds-svg{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:8px;margin:6px 0}
+
+.footer{
+  display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  align-items:center;
+  padding:12px 2px 6px;
+  font-size:10px;
+  color:var(--subtle);
+  border-top:1px solid var(--line);
+  margin-top:20px;
+}
+
+/* ============================================================
+   SVG VISUALS
+   ============================================================ */
+.ds-svg{
+  width:100%;height:auto;display:block;
+  background:var(--lab-deep);
+  border:1px solid var(--lab-border);
+  border-radius:var(--radius);
+  margin:8px 0;
+}
 .tree-node{fill:var(--panel2);stroke:var(--accent);stroke-width:2}
-.tree-label{fill:var(--strong);font:12px ui-monospace,monospace;text-anchor:middle}
+.tree-label{fill:var(--strong);font:11.5px var(--font);text-anchor:middle}
 .tree-edge{stroke:var(--line2);stroke-width:1.5;fill:none}
 .cell-box{fill:var(--panel3);stroke:var(--line2);stroke-width:1.5}
-.cell-label{fill:var(--strong);font:11px ui-monospace,monospace;text-anchor:middle}
+.cell-label{fill:var(--strong);font:11px var(--font);text-anchor:middle}
 .cell-active{fill:var(--accent);stroke:var(--accent)}
-@media(max-width:1080px){.layout{grid-template-columns:240px minmax(360px,1fr)}main{padding:24px 22px 36px}}
-@media(max-width:840px){.topbar{height:auto;min-height:60px;flex-wrap:wrap;gap:10px;padding:10px 14px}.top-meta{display:none}.top-actions{margin-left:auto}.top-actions label{display:none}.layout{display:block}.sidebar{position:static;height:auto;max-height:none;border:0;border-bottom:1px solid var(--line);padding:14px}.tree{max-height:260px;overflow:auto}.side-foot{display:none}main{padding:20px 15px 32px}.idea{grid-template-columns:1fr}.mental{order:-1}.stats{grid-template-columns:1fr 1fr}.chapter-cards,.two,.lab-cols{grid-template-columns:1fr}}
-@media(max-width:520px){.brand small{display:none}.brand-mark{width:30px;height:30px}.brand strong{font-size:12px}.top-actions select{max-width:92px;padding:6px;font-size:10px}.top-actions .btn{padding:6px 8px;font-size:10px}.chapter-cards{grid-template-columns:1fr}.tiles{grid-template-columns:1fr}.home-hero{padding:20px}.home-hero h1{font-size:30px}.header h1{font-size:27px}.body,.panel-head{padding-left:15px;padding-right:15px}.footer{display:block}.footer span{display:block;margin-bottom:6px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
-@media print{.topbar,.sidebar,.header-actions,.lab-top,.btn,.toast{display:none!important}.layout{display:block}main{padding:0;max-width:none}.panel,.home-hero{break-inside:avoid;box-shadow:none}body{background:#fff;color:#111}}
-</style></head><body>
+.cell-active + .cell-label{fill:#161313}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1080px){
+  .layout{grid-template-columns:236px minmax(0,1fr)}
+  main{padding:22px 20px 36px}
+}
+@media(max-width:840px){
+  .topbar{height:auto;min-height:56px;flex-wrap:wrap;gap:10px;padding:10px 14px}
+  .top-meta{display:none}
+  .top-actions{margin-left:auto}
+  .top-actions label{display:none}
+  .layout{display:block}
+  .sidebar{
+    position:static;height:auto;max-height:none;
+    border-right:0;border-bottom:1px solid var(--line);
+    padding:14px;
+  }
+  .tree{max-height:280px;overflow:auto}
+  .side-foot{display:none}
+  main{padding:18px 15px 32px}
+  .idea{grid-template-columns:1fr}
+  .mental{order:-1}
+  .stats{grid-template-columns:1fr 1fr}
+  .chapter-cards,.two,.lab-cols{grid-template-columns:1fr}
+  .header h1{font-size:20px}
+  .home-hero h1{font-size:20px}
+}
+@media(max-width:520px){
+  .brand{font-size:11.5px}
+  .top-actions select{max-width:88px;padding:5px 6px;font-size:10px}
+  .top-actions .btn{padding:5px 7px;font-size:10px}
+  .chapter-cards{grid-template-columns:1fr}
+  .tiles{grid-template-columns:1fr}
+  .home-hero{padding:18px}
+  .body,.panel-head{padding-left:13px;padding-right:13px}
+  .footer{display:block}
+  .footer span{display:block;margin-bottom:5px}
+}
+
+/* ============================================================
+   MOTION & PRINT
+   ============================================================ */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+@media print{
+  .topbar,.sidebar,.header-actions,.lab-top,.btn,.toast,.lab-input,.code-head,.code-foot{display:none!important}
+  .layout{display:block}
+  main{padding:0;max-width:none}
+  .panel,.home-hero{break-inside:avoid;box-shadow:none}
+  .pseudo,.lab-output,.code-editor{
+    background:#fff !important;color:#111 !important;border-color:#ccc !important;
+  }
+  body{background:#fff;color:#111}
+  a{color:#111;text-decoration:underline}
+}
+</style>
+</head>
+<body>
 
 <header class="topbar">
-  <a class="brand" href="#home" id="homeLink"><span class="brand-mark">Az</span><span><strong>Az Data Structures Lab</strong><small>DATA STRUCTURES</small></span></a>
+  <a class="brand" href="#home" id="homeLink">
+    <strong>aznur</strong>
+    <span class="brand-slash">/</span>
+    <span class="brand-title">data structures lab</span>
+  </a>
   <div class="top-meta" id="catalogCount"></div>
   <div class="top-actions">
     <label for="themeSelect">Theme</label>
     <select id="themeSelect" aria-label="Theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
-    <button class="btn" id="printBtn">Print / PDF</button>
-    <button class="btn" id="exportBtn">Export</button>
-    <button class="btn" id="importBtn">Import</button>
+    <button class="btn" id="printBtn" type="button">Print / PDF</button>
+    <button class="btn" id="exportBtn" type="button">Export</button>
+    <button class="btn" id="importBtn" type="button">Import</button>
     <input type="file" id="importFile" accept="application/json,.json" hidden>
   </div>
 </header>
@@ -127,13 +902,13 @@ td{color:var(--muted)}
 <div class="layout">
   <aside class="sidebar" aria-label="Course navigation">
     <div class="side-title"><span>COURSE CATALOG</span><span class="pill" id="lessonCount">0</span></div>
-    <div class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Search data structures…" aria-label="Search lessons"><kbd>/</kbd></div>
+    <div class="search"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search data structures…" aria-label="Search lessons"><kbd>/</kbd></div>
     <label class="filter">Chapter<select id="chapterFilter"><option value="all">All chapters</option></select></label>
     <nav class="tree" id="courseTree" aria-label="Lessons"></nav>
     <div class="side-foot">
       <div class="progress-row"><span>COURSE PROGRESS</span><strong id="progressText">0 / 0</strong></div>
       <div class="progress" id="progressBar"><div id="progressFill"></div></div>
-      <div class="side-actions"><button class="btn" data-page="home">Home</button><button class="btn" data-page="progress">Progress</button></div>
+      <div class="side-actions"><button class="btn" data-page="home" type="button">Home</button><button class="btn" data-page="progress" type="button">Progress</button></div>
     </div>
   </aside>
   <main id="mainView" tabindex="-1" aria-live="polite"></main>
@@ -1093,66 +1868,1465 @@ const RAW=[
 
 const LESSONS=RAW.map(mk);
 const byId=Object.fromEntries(LESSONS.map(x=>[x.id,x]));
-
+</script>
+<script>
 /* ============================================================
    Code examples
    ============================================================ */
 const CODE={
- "array":{python:`class DynamicArray:\n    def __init__(self, capacity=4):\n        self.capacity = capacity\n        self.data = [None] * capacity\n        self.size = 0\n\n    def append(self, x):\n        if self.size == self.capacity:\n            self.capacity *= 2\n            new_data = [None] * self.capacity\n            for i in range(self.size):\n                new_data[i] = self.data[i]\n            self.data = new_data\n        self.data[self.size] = x\n        self.size += 1\n\n    def get(self, i):\n        if not 0 <= i < self.size:\n            raise IndexError(i)\n        return self.data[i]\n\n    def __len__(self):\n        return self.size\n\n\na = DynamicArray()\nfor x in [5, 3, 8, 1, 9]:\n    a.append(x)\nprint(a.data[:a.size], "capacity:", a.capacity)\n`},
- "linked-list":{python:`class Node:\n    __slots__ = ("value", "next")\n    def __init__(self, value, nxt=None):\n        self.value = value\n        self.next = nxt\n\n\nclass LinkedList:\n    def __init__(self):\n        self.head = None\n        self.size = 0\n\n    def push_front(self, x):\n        self.head = Node(x, self.head)\n        self.size += 1\n\n    def pop_front(self):\n        if self.head is None:\n            raise IndexError("empty")\n        value = self.head.value\n        self.head = self.head.next\n        self.size -= 1\n        return value\n\n    def find(self, x):\n        cur = self.head\n        while cur:\n            if cur.value == x:\n                return True\n            cur = cur.next\n        return False\n\n    def __iter__(self):\n        cur = self.head\n        while cur:\n            yield cur.value\n            cur = cur.next\n\n\nll = LinkedList()\nfor x in [5, 3, 8, 1]:\n    ll.push_front(x)\nprint(list(ll))\nprint("find 3:", ll.find(3), "find 9:", ll.find(9))\n`},
- "stack-queue":{python:`from collections import deque\n\n\nclass Stack:\n    def __init__(self):\n        self.data = []\n    def push(self, x): self.data.append(x)\n    def pop(self): return self.data.pop()\n    def peek(self): return self.data[-1]\n    def __len__(self): return len(self.data)\n\n\nclass Queue:\n    def __init__(self):\n        self.data = deque()\n    def enqueue(self, x): self.data.append(x)\n    def dequeue(self): return self.data.popleft()\n    def front(self): return self.data[0]\n    def __len__(self): return len(self.data)\n\n\ns = Stack()\nfor x in [1, 2, 3]: s.push(x)\nprint("stack pop:", s.pop())\n\nq = Queue()\nfor x in [1, 2, 3]: q.enqueue(x)\nprint("queue dequeue:", q.dequeue())\n`},
- "deque":{python:`from collections import deque\n\n\nd = deque()\nd.append(1)\nd.append(2)\nd.appendleft(0)\nprint(d)\nd.pop()\nprint(d)\nd.popleft()\nprint(d)\n`},
- "hash-table":{python:`class HashTable:\n    def __init__(self, m=11):\n        self.m = m\n        self.buckets = [[] for _ in range(m)]\n        self.size = 0\n\n    def _hash(self, k):\n        return hash(k) % self.m\n\n    def put(self, k, v):\n        bucket = self.buckets[self._hash(k)]\n        for i, (key, _) in enumerate(bucket):\n            if key == k:\n                bucket[i] = (k, v)\n                return\n        bucket.append((k, v))\n        self.size += 1\n\n    def get(self, k):\n        for key, v in self.buckets[self._hash(k)]:\n            if key == k:\n                return v\n        raise KeyError(k)\n\n    def delete(self, k):\n        bucket = self.buckets[self._hash(k)]\n        for i, (key, _) in enumerate(bucket):\n            if key == k:\n                del bucket[i]\n                self.size -= 1\n                return\n        raise KeyError(k)\n\n\nht = HashTable()\nht.put("apple", 5)\nht.put("banana", 7)\nht.put("cherry", 9)\nprint(ht.get("banana"))\nht.delete("apple")\nprint("size:", ht.size)\n`},
- "hash-set":{python:`s = set()\nfor x in ["A", "B", "C", "A"]:\n    s.add(x)\nprint(s)\nprint("B" in s)\nprint("D" in s)\ns.discard("A")\nprint(s)\n\n# Set algebra\na = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nprint("union:", a | b)\nprint("intersection:", a & b)\nprint("difference:", a - b)\n`},
- "bloom":{python:`import math\n\n\nclass BloomFilter:\n    def __init__(self, m, k):\n        self.m = m\n        self.k = k\n        self.bits = bytearray((m + 7) // 8)\n\n    def _positions(self, key):\n        data = key.encode()\n        h1 = hash(data) & 0xFFFFFFFF\n        h2 = (hash(data[::-1]) | 1) & 0xFFFFFFFF\n        return [(h1 + i * h2) % self.m for i in range(self.k)]\n\n    def add(self, key):\n        for p in self._positions(key):\n            self.bits[p >> 3] |= 1 << (p & 7)\n\n    def __contains__(self, key):\n        return all(self.bits[p >> 3] & (1 << (p & 7)) for p in self._positions(key))\n\n\nn = 10000\nm = int(n * 9.6)\nk = max(1, round(m / n * math.log(2)))\nf = BloomFilter(m, k)\nfor i in range(n):\n    f.add(f"user:{i}")\nprint("in:", "user:500" in f)\nprint("out:", "nobody:999" in f)\n`},
- "cuckoo":{python:`import random\n\n\nclass CuckooFilter:\n    def __init__(self, capacity, bucket_size=4):\n        self.capacity = capacity\n        self.bucket_size = bucket_size\n        self.buckets = [[] for _ in range(capacity)]\n\n    def _fingerprint(self, key):\n        return hash(key) % 255 + 1\n\n    def _index1(self, key):\n        return hash(key) % self.capacity\n\n    def _index2(self, key, fp):\n        return (hash(key) ^ hash(str(fp))) % self.capacity\n\n    def insert(self, key):\n        fp = self._fingerprint(key)\n        i1 = self._index1(key)\n        i2 = self._index2(key, fp)\n        if len(self.buckets[i1]) < self.bucket_size:\n            self.buckets[i1].append(fp)\n            return True\n        if len(self.buckets[i2]) < self.bucket_size:\n            self.buckets[i2].append(fp)\n            return True\n        # kick\n        i = random.choice([i1, i2])\n        for _ in range(100):\n            slot = random.randrange(self.bucket_size)\n            fp, self.buckets[i][slot] = self.buckets[i][slot], fp\n            i = (i ^ hash(str(fp))) % self.capacity\n            if len(self.buckets[i]) < self.bucket_size:\n                self.buckets[i].append(fp)\n                return True\n        return False\n\n    def contains(self, key):\n        fp = self._fingerprint(key)\n        return fp in self.buckets[self._index1(key)] or fp in self.buckets[self._index2(key, fp)]\n\n\ncf = CuckooFilter(64)\nfor i in range(50):\n    cf.insert(f"key-{i}")\nprint("in:", cf.contains("key-10"))\nprint("out:", cf.contains("missing"))\n`},
- "binary-tree":{python:`class Node:\n    __slots__ = ("value", "left", "right")\n    def __init__(self, value):\n        self.value = value\n        self.left = self.right = None\n\n\ndef insert_bst(root, x):\n    if root is None: return Node(x)\n    if x < root.value: root.left = insert_bst(root.left, x)\n    else: root.right = insert_bst(root.right, x)\n    return root\n\n\ndef inorder(n, out):\n    if n is None: return\n    inorder(n.left, out)\n    out.append(n.value)\n    inorder(n.right, out)\n\n\ndef preorder(n, out):\n    if n is None: return\n    out.append(n.value)\n    preorder(n.left, out)\n    preorder(n.right, out)\n\n\ndef postorder(n, out):\n    if n is None: return\n    postorder(n.left, out)\n    postorder(n.right, out)\n    out.append(n.value)\n\n\nroot = None\nfor x in [5, 3, 8, 1, 4, 7, 9]:\n    root = insert_bst(root, x)\n\no = []; inorder(root, o); print("inorder:", o)\no = []; preorder(root, o); print("preorder:", o)\no = []; postorder(root, o); print("postorder:", o)\n`},
- "bst":{python:`class BST:\n    def __init__(self):\n        self.root = None\n\n    def insert(self, x):\n        self.root = self._insert(self.root, x)\n\n    def _insert(self, n, x):\n        if n is None: return {"v": x, "l": None, "r": None}\n        if x < n["v"]: n["l"] = self._insert(n["l"], x)\n        else: n["r"] = self._insert(n["r"], x)\n        return n\n\n    def find(self, x):\n        n = self.root\n        while n:\n            if x == n["v"]: return True\n            n = n["l"] if x < n["v"] else n["r"]\n        return False\n\n\nt = BST()\nfor x in [5, 3, 8, 1, 4]:\n    t.insert(x)\nprint("find 4:", t.find(4), "find 7:", t.find(7))\n`},
- "avl":{python:`class AVLNode:\n    __slots__ = ("v", "l", "r", "h")\n    def __init__(self, v):\n        self.v = v\n        self.l = self.r = None\n        self.h = 1\n\n\ndef height(n):\n    return n.h if n else 0\n\n\ndef update(n):\n    n.h = 1 + max(height(n.l), height(n.r))\n\n\ndef rotate_right(n):\n    l = n.l\n    n.l = l.r\n    l.r = n\n    update(n); update(l)\n    return l\n\n\ndef rotate_left(n):\n    r = n.r\n    n.r = r.l\n    r.l = n\n    update(n); update(r)\n    return r\n\n\ndef balance(n):\n    update(n)\n    bf = height(n.l) - height(n.r)\n    if bf > 1:\n        if height(n.l.l) < height(n.l.r): n.l = rotate_left(n.l)\n        return rotate_right(n)\n    if bf < -1:\n        if height(n.r.r) < height(n.r.l): n.r = rotate_right(n.r)\n        return rotate_left(n)\n    return n\n\n\ndef insert(n, x):\n    if n is None: return AVLNode(x)\n    if x < n.v: n.l = insert(n.l, x)\n    else: n.r = insert(n.r, x)\n    return balance(n)\n\n\nroot = None\nfor x in [10, 20, 30, 40, 50, 25]:\n    root = insert(root, x)\nprint("root:", root.v, "height:", root.h)\n`},
- "red-black":{python:`# Simplified red-black tree sketch\nRED = True\nBLACK = False\n\n\nclass Node:\n    def __init__(self, key, colour=RED):\n        self.key = key\n        self.colour = colour\n        self.left = self.right = None\n        self.parent = None\n\n\n# Full implementation is long.\n# See CLRS Chapter 13 for details.\n# Red-black invariants:\n#   1. Every node is red or black\n#   2. Root is black\n#   3. Every nil leaf is black\n#   4. Red node has black children\n#   5. Every path from a node to its leaves has same number of black nodes\n\nroot = Node(10, BLACK)\nroot.left = Node(5)\nroot.left.parent = root\nprint("root colour black:", root.colour == BLACK)\n`},
- "treap":{python:`import random\n\n\nclass TreapNode:\n    __slots__ = ("key", "prio", "l", "r")\n    def __init__(self, key):\n        self.key = key\n        self.prio = random.random()\n        self.l = self.r = None\n\n\ndef rotate_right(n):\n    l = n.l\n    n.l = l.r\n    l.r = n\n    return l\n\n\ndef rotate_left(n):\n    r = n.r\n    n.r = r.l\n    r.l = n\n    return r\n\n\ndef insert(n, key):\n    if n is None: return TreapNode(key)\n    if key < n.key:\n        n.l = insert(n.l, key)\n        if n.l.prio > n.prio: n = rotate_right(n)\n    else:\n        n.r = insert(n.r, key)\n        if n.r.prio > n.prio: n = rotate_left(n)\n    return n\n\n\nroot = None\nfor x in [5, 3, 8, 1, 4, 7, 9]:\n    root = insert(root, x)\nprint("root:", root.key)\n`},
- "two-three-four":{python:`# 2-3-4 tree concepts\n# Nodes have 1, 2, or 3 keys and 2, 3, or 4 children.\n# Same structure as a red-black tree viewed differently.\n# In this sketch we show the invariants.\n\nINVARIANTS = [\n    "every node has 1, 2, or 3 keys",\n    "a node with k keys has k+1 children",\n    "all leaves at the same depth",\n    "keys are sorted within each node",\n]\nfor inv in INVARIANTS:\n    print("-", inv)\n`},
- "btree":{python:`# B-tree of order 4 (t=2)\nclass BNode:\n    def __init__(self, leaf=True):\n        self.keys = []\n        self.children = []\n        self.leaf = leaf\n\n\nclass BTree:\n    def __init__(self, t=2):\n        self.t = t\n        self.root = BNode()\n\n    def search(self, node, key):\n        i = 0\n        while i < len(node.keys) and key > node.keys[i]:\n            i += 1\n        if i < len(node.keys) and node.keys[i] == key:\n            return node, i\n        if node.leaf:\n            return None\n        return self.search(node.children[i], key)\n\n    def split_child(self, parent, i):\n        t = self.t\n        y = parent.children[i]\n        z = BNode(leaf=y.leaf)\n        median = y.keys[t - 1]\n        z.keys = y.keys[t:]\n        y.keys = y.keys[:t - 1]\n        if not y.leaf:\n            z.children = y.children[t:]\n            y.children = y.children[:t]\n        parent.keys.insert(i, median)\n        parent.children.insert(i + 1, z)\n\n    def insert(self, key):\n        root = self.root\n        if len(root.keys) == 2 * self.t - 1:\n            new_root = BNode(leaf=False)\n            new_root.children.append(root)\n            self.split_child(new_root, 0)\n            self.root = new_root\n            self._insert_non_full(new_root, key)\n        else:\n            self._insert_non_full(root, key)\n\n    def _insert_non_full(self, node, key):\n        i = len(node.keys) - 1\n        if node.leaf:\n            node.keys.append(None)\n            while i >= 0 and key < node.keys[i]:\n                node.keys[i + 1] = node.keys[i]\n                i -= 1\n            node.keys[i + 1] = key\n        else:\n            while i >= 0 and key < node.keys[i]:\n                i -= 1\n            i += 1\n            if len(node.children[i].keys) == 2 * self.t - 1:\n                self.split_child(node, i)\n                if key > node.keys[i]:\n                    i += 1\n            self._insert_non_full(node.children[i], key)\n\n\nbt = BTree(t=2)\nfor x in [10, 20, 5, 6, 12, 30, 7, 17]:\n    bt.insert(x)\nprint("root keys:", bt.root.keys)\n`},
- "bplus":{python:`# B+ tree concept sketch\nclass BPlusNode:\n    def __init__(self, leaf=False):\n        self.keys = []\n        self.children = []\n        self.next = None\n        self.leaf = leaf\n\n\n# B+ tree properties:\n#   - internal nodes hold keys and pointers, no data\n#   - all data is in the leaves\n#   - leaves are linked in sorted order\n\nprint("B+ tree leaf links enable efficient range queries.")\nprint("Most databases use B+ trees for their indexes.")\n`},
- "trie":{python:`class TrieNode:\n    __slots__ = ("children", "is_end")\n    def __init__(self):\n        self.children = {}\n        self.is_end = False\n\n\nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n\n    def insert(self, word):\n        node = self.root\n        for ch in word:\n            node = node.children.setdefault(ch, TrieNode())\n        node.is_end = True\n\n    def search(self, word):\n        node = self.root\n        for ch in word:\n            if ch not in node.children: return False\n            node = node.children[ch]\n        return node.is_end\n\n    def starts_with(self, prefix):\n        node = self.root\n        for ch in prefix:\n            if ch not in node.children: return False\n            node = node.children[ch]\n        return True\n\n\nt = Trie()\nfor w in ["apple", "app", "apply", "banana", "band", "bank"]:\n    t.insert(w)\nprint("search apple:", t.search("apple"))\nprint("search ap:", t.search("ap"))\nprint("starts_with ba:", t.starts_with("ba"))\n`},
- "binary-heap":{python:`import heapq\n\n\nh = []\nfor x in [5, 3, 8, 1, 9, 2, 7, 4]:\n    heapq.heappush(h, x)\nprint("heap array:", h)\nprint("min:", h[0])\nwhile h:\n    print(heapq.heappop(h), end=" ")\nprint()\n`},
- "dary":{python:`class DAryHeap:\n    def __init__(self, d=4):\n        self.d = d\n        self.data = []\n\n    def push(self, x):\n        self.data.append(x)\n        self._sift_up(len(self.data) - 1)\n\n    def pop(self):\n        if not self.data: raise IndexError\n        top = self.data[0]\n        last = self.data.pop()\n        if self.data:\n            self.data[0] = last\n            self._sift_down(0)\n        return top\n\n    def _parent(self, i): return (i - 1) // self.d\n\n    def _sift_up(self, i):\n        while i > 0:\n            p = self._parent(i)\n            if self.data[i] < self.data[p]:\n                self.data[i], self.data[p] = self.data[p], self.data[i]\n                i = p\n            else:\n                break\n\n    def _sift_down(self, i):\n        n = len(self.data)\n        while True:\n            smallest = i\n            for j in range(1, self.d + 1):\n                c = self.d * i + j\n                if c < n and self.data[c] < self.data[smallest]:\n                    smallest = c\n            if smallest == i: break\n            self.data[i], self.data[smallest] = self.data[smallest], self.data[i]\n            i = smallest\n\n\nh = DAryHeap(d=4)\nfor x in [5, 3, 8, 1, 9, 2, 7, 4]:\n    h.push(x)\nwhile h.data:\n    print(h.pop(), end=" ")\nprint()\n`},
- "binomial-heap":{python:`# Binomial heap concept\n# Binomial tree B_k:\n#   B_0 = single node\n#   B_k = two B_{k-1}, one attached to the other\n#   B_k has 2^k nodes and height k\n\n# Binomial heap = forest of binomial trees with distinct orders\n\n# Operations:\n#   find_min       O(log n)\n#   merge          O(log n)\n#   insert         O(log n)\n#   extract_min    O(log n)\n#   decrease_key   O(log n)\n#   delete         O(log n)\n\nprint("Binomial heap: mergeable priority queue")\n`},
- "fibonacci":{python:`# Fibonacci heap concept\n# Amortized bounds:\n#   find_min       O(1)\n#   insert         O(1)\n#   merge          O(1)\n#   decrease_key   O(1)\n#   delete         O(log n)\n#   extract_min    O(log n)\n\nprint("Fibonacci heaps make Dijkstra O(E + V log V)")\nprint("but constants are high, so binary heaps often win in practice")\n`},
- "radix":{python:`# Radix heap concept\n# Keys must be monotone (extract_min returns keys in increasing order)\n# Operations:\n#   insert    O(1) amortized\n#   find_min  O(1)\n#   extract   O(log C) where C is the maximum key\n#\n# Used for Dijkstra on graphs with integer weights.\n\nprint("Radix heap: specialized for monotone integer keys")\n`},
- "prefix":{python:`a = [3, 1, 4, 1, 5, 9, 2, 6]\nprefix = [0] * (len(a) + 1)\nfor i, x in enumerate(a):\n    prefix[i + 1] = prefix[i] + x\n\nprint("prefix:", prefix)\nprint("sum a[2..5]:", prefix[6] - prefix[2])\nprint("sum a[0..4]:", prefix[4] - prefix[0])\n`},
- "fenwick":{python:`class Fenwick:\n    def __init__(self, a):\n        self.n = len(a)\n        self.tree = [0] * (self.n + 1)\n        for i, x in enumerate(a):\n            self.update(i + 1, x)\n\n    @staticmethod\n    def _lowbit(i):\n        return i & (-i)\n\n    def update(self, i, delta):\n        while i <= self.n:\n            self.tree[i] += delta\n            i += self._lowbit(i)\n\n    def query(self, i):\n        s = 0\n        while i > 0:\n            s += self.tree[i]\n            i -= self._lowbit(i)\n        return s\n\n    def range_sum(self, l, r):\n        return self.query(r) - self.query(l - 1)\n\n\nf = Fenwick([3, 1, 4, 1, 5, 9, 2, 6])\nprint("query 5:", f.query(5))\nf.update(2, 10)\nprint("after update query 5:", f.query(5))\nprint("range 2..5:", f.range_sum(2, 5))\n`},
- "segtree":{python:`class SegTree:\n    def __init__(self, a):\n        self.n = len(a)\n        self.tree = [0] * (4 * self.n)\n        self._build(a, 1, 0, self.n - 1)\n\n    def _build(self, a, node, lo, hi):\n        if lo == hi:\n            self.tree[node] = a[lo]\n        else:\n            mid = (lo + hi) // 2\n            self._build(a, 2 * node, lo, mid)\n            self._build(a, 2 * node + 1, mid + 1, hi)\n            self.tree[node] = self.tree[2 * node] + self.tree[2 * node + 1]\n\n    def query(self, ql, qr):\n        return self._query(1, 0, self.n - 1, ql, qr)\n\n    def _query(self, node, lo, hi, ql, qr):\n        if qr < lo or hi < ql: return 0\n        if ql <= lo and hi <= qr: return self.tree[node]\n        mid = (lo + hi) // 2\n        return self._query(2 * node, lo, mid, ql, qr) + self._query(2 * node + 1, mid + 1, hi, ql, qr)\n\n    def update(self, idx, val):\n        self._update(1, 0, self.n - 1, idx, val)\n\n    def _update(self, node, lo, hi, idx, val):\n        if lo == hi:\n            self.tree[node] = val\n            return\n        mid = (lo + hi) // 2\n        if idx <= mid: self._update(2 * node, lo, mid, idx, val)\n        else: self._update(2 * node + 1, mid + 1, hi, idx, val)\n        self.tree[node] = self.tree[2 * node] + self.tree[2 * node + 1]\n\n\nst = SegTree([3, 1, 4, 1, 5, 9, 2, 6])\nprint("query 2..5:", st.query(2, 5))\nst.update(3, 10)\nprint("after update query 2..5:", st.query(2, 5))\n`},
- "lazy":{python:`# Lazy segment tree sketch\nclass LazySegTree:\n    def __init__(self, a):\n        self.n = len(a)\n        self.tree = [0] * (4 * self.n)\n        self.lazy = [0] * (4 * self.n)\n        self._build(a, 1, 0, self.n - 1)\n\n    def _build(self, a, node, lo, hi):\n        if lo == hi:\n            self.tree[node] = a[lo]\n        else:\n            mid = (lo + hi) // 2\n            self._build(a, 2 * node, lo, mid)\n            self._build(a, 2 * node + 1, mid + 1, hi)\n            self.tree[node] = self.tree[2 * node] + self.tree[2 * node + 1]\n\n    def _push(self, node, lo, hi):\n        if self.lazy[node] != 0:\n            mid = (lo + hi) // 2\n            self.tree[2 * node] += self.lazy[node] * (mid - lo + 1)\n            self.tree[2 * node + 1] += self.lazy[node] * (hi - mid)\n            self.lazy[2 * node] += self.lazy[node]\n            self.lazy[2 * node + 1] += self.lazy[node]\n            self.lazy[node] = 0\n\n    def update(self, ql, qr, val):\n        self._update(1, 0, self.n - 1, ql, qr, val)\n\n    def _update(self, node, lo, hi, ql, qr, val):\n        if qr < lo or hi < ql: return\n        if ql <= lo and hi <= qr:\n            self.tree[node] += val * (hi - lo + 1)\n            self.lazy[node] += val\n            return\n        self._push(node, lo, hi)\n        mid = (lo + hi) // 2\n        self._update(2 * node, lo, mid, ql, qr, val)\n        self._update(2 * node + 1, mid + 1, hi, ql, qr, val)\n        self.tree[node] = self.tree[2 * node] + self.tree[2 * node + 1]\n\n    def query(self, ql, qr):\n        return self._query(1, 0, self.n - 1, ql, qr)\n\n    def _query(self, node, lo, hi, ql, qr):\n        if qr < lo or hi < ql: return 0\n        if ql <= lo and hi <= qr: return self.tree[node]\n        self._push(node, lo, hi)\n        mid = (lo + hi) // 2\n        return self._query(2 * node, lo, mid, ql, qr) + self._query(2 * node + 1, mid + 1, hi, ql, qr)\n\n\nlz = LazySegTree([1, 2, 3, 4, 5])\nlz.update(1, 3, 10)\nprint("query 0..4:", lz.query(0, 4))\nprint("query 1..3:", lz.query(1, 3))\n`},
- "sparse":{python:`import math\n\n\ndef build_sparse_min(a):\n    n = len(a)\n    log = [0] * (n + 1)\n    for i in range(2, n + 1):\n        log[i] = log[i // 2] + 1\n    k = log[n] + 1\n    table = [[0] * n for _ in range(k)]\n    table[0] = a[:]\n    for j in range(1, k):\n        for i in range(n - (1 << j) + 1):\n            table[j][i] = min(table[j - 1][i], table[j - 1][i + (1 << (j - 1))])\n    return table, log\n\n\ndef query(table, log, l, r):\n    j = log[r - l + 1]\n    return min(table[j][l], table[j][r - (1 << j) + 1])\n\n\na = [3, 1, 4, 1, 5, 9, 2, 6]\ntable, log = build_sparse_min(a)\nprint("min 2..5:", query(table, log, 2, 5))\nprint("min 0..3:", query(table, log, 0, 3))\n`},
- "mos":{python:`# Mo's algorithm sketch\nimport math\nfrom collections import Counter\n\n\ndef mos_algorithm(a, queries):\n    n = len(a)\n    block_size = int(math.sqrt(n)) + 1\n    queries = [(l, r, i) for i, (l, r) in enumerate(queries)]\n    queries.sort(key=lambda q: (q[0] // block_size, q[1] if (q[0] // block_size) % 2 == 0 else -q[1]))\n    answers = [0] * len(queries)\n    counts = Counter()\n    distinct = [0]\n    cur_l, cur_r = 0, -1\n\n    def add(i):\n        counts[a[i]] += 1\n        if counts[a[i]] == 1: distinct[0] += 1\n\n    def remove(i):\n        counts[a[i]] -= 1\n        if counts[a[i]] == 0: distinct[0] -= 1\n\n    for l, r, idx in queries:\n        while cur_l > l: cur_l -= 1; add(cur_l)\n        while cur_r < r: cur_r += 1; add(cur_r)\n        while cur_l < l: remove(cur_l); cur_l += 1\n        while cur_r > r: remove(cur_r); cur_r -= 1\n        answers[idx] = distinct[0]\n    return answers\n\n\na = [1, 1, 2, 3, 2, 1, 4, 5, 1]\nqueries = [(0, 4), (1, 5), (2, 7), (0, 8)]\nprint("distinct counts:", mos_algorithm(a, queries))\n`},
- "wavelet":{python:`# Wavelet tree sketch\n# Recursively splits the alphabet and stores a bitmap per level.\n# Supports rank, select, range quantile, range counting in O(log sigma).\n\nprint("Wavelet tree: compact index for range queries")\nprint("Used in FM-index and compressed text indexes")\n`},
- "persistent-seg":{python:`# Persistent segment tree sketch\n# Each update creates O(log n) new nodes.\n# Old versions remain valid.\n\nclass Node:\n    __slots__ = ("left", "right", "value")\n    def __init__(self, left=None, right=None, value=0):\n        self.left = left\n        self.right = right\n        self.value = value\n\n\ndef update(prev, lo, hi, idx, val):\n    node = Node()\n    if lo == hi:\n        node.value = val\n        return node\n    mid = (lo + hi) // 2\n    if idx <= mid:\n        node.left = update(prev.left, lo, mid, idx, val)\n        node.right = prev.right\n    else:\n        node.left = prev.left\n        node.right = update(prev.right, mid + 1, hi, idx, val)\n    node.value = (node.left.value if node.left else 0) + (node.right.value if node.right else 0)\n    return node\n\n\n# Build initial tree, then update to create new versions.\nprint("Persistent segment tree: all versions remain valid")\n`},
- "order-stat":{python:`# Order-statistic tree sketch\n# BST where each node stores its subtree size.\n\nclass Node:\n    __slots__ = ("key", "left", "right", "size")\n    def __init__(self, key):\n        self.key = key\n        self.left = self.right = None\n        self.size = 1\n\n\ndef size(n): return n.size if n else 0\n\n\ndef update(n):\n    if n: n.size = 1 + size(n.left) + size(n.right)\n\n\ndef rank(root, key):\n    count = 0\n    node = root\n    while node:\n        if key <= node.key:\n            node = node.left\n        else:\n            count += 1 + size(node.left)\n            node = node.right\n    return count\n\n\ndef select(root, k):\n    node = root\n    while node:\n        ls = size(node.left)\n        if k == ls: return node.key\n        if k < ls: node = node.left\n        else: k -= ls + 1; node = node.right\n    return None\n\n\nroot = Node(5)\nroot.left = Node(3); root.right = Node(8)\nroot.left.left = Node(1); root.left.right = Node(4)\nupdate(root.left); update(root); update(root.right)\nprint("rank(5):", rank(root, 5))\nprint("select(2):", select(root, 2))\n`},
- "union-find":{python:`class UnionFind:\n    def __init__(self, n):\n        self.parent = list(range(n))\n        self.rank = [0] * n\n\n    def find(self, x):\n        while self.parent[x] != x:\n            self.parent[x] = self.parent[self.parent[x]]\n            x = self.parent[x]\n        return x\n\n    def union(self, a, b):\n        ra, rb = self.find(a), self.find(b)\n        if ra == rb: return False\n        if self.rank[ra] < self.rank[rb]:\n            ra, rb = rb, ra\n        self.parent[rb] = ra\n        if self.rank[ra] == self.rank[rb]:\n            self.rank[ra] += 1\n        return True\n\n    def connected(self, a, b):\n        return self.find(a) == self.find(b)\n\n\nuf = UnionFind(10)\nuf.union(0, 1)\nuf.union(2, 3)\nuf.union(1, 3)\nprint("connected 0 3:", uf.connected(0, 3))\nprint("connected 0 4:", uf.connected(0, 4))\n`},
- "rollback-dsu":{python:`class RollbackDSU:\n    def __init__(self, n):\n        self.parent = list(range(n))\n        self.size = [1] * n\n        self.history = []\n\n    def find(self, x):\n        while self.parent[x] != x:\n            x = self.parent[x]\n        return x\n\n    def union(self, a, b):\n        ra, rb = self.find(a), self.find(b)\n        if ra == rb: return\n        if self.size[ra] < self.size[rb]:\n            ra, rb = rb, ra\n        self.history.append((rb, self.parent[rb], ra, self.size[ra]))\n        self.parent[rb] = ra\n        self.size[ra] += self.size[rb]\n\n    def rollback(self):\n        rb, old_parent, ra, old_size = self.history.pop()\n        self.parent[rb] = old_parent\n        self.size[ra] = old_size\n\n\nuf = RollbackDSU(10)\nuf.union(0, 1)\nuf.union(2, 3)\nprint("connected 2 3:", uf.find(2) == uf.find(3))\nuf.rollback()\nprint("after rollback:", uf.find(2) == uf.find(3))\n`},
- "link-cut":{python:`# Link-cut tree sketch\n# Maintains a dynamic forest with O(log n) amortized link, cut, and path queries.\n# Uses splay trees over preferred paths.\n\nprint("Link-cut tree: dynamic forest with path queries")\nprint("access(v): makes path from root to v a preferred path")\n`},
- "euler-tour":{python:`# Euler-tour tree sketch\n# A tree stored as its Euler tour in a balanced BST.\n# Link and cut become split and join on the tour.\n\nprint("Euler-tour tree: O(log n) link, cut, subtree query")\n`},
- "ropes":{python:`# Rope concept\n# A rope is a binary tree of strings.\n# Concatenation is O(1) (creates a new root).\n# Split and index are O(log n).\n\nprint("Rope: tree of strings for long text editing")\n`},
- "gap-buffer":{python:`class GapBuffer:\n    def __init__(self, capacity=32):\n        self.buffer = [None] * capacity\n        self.gap_start = 0\n        self.gap_end = capacity\n\n    def insert(self, c):\n        if self.gap_start == self.gap_end:\n            self._grow()\n        self.buffer[self.gap_start] = c\n        self.gap_start += 1\n\n    def _grow(self):\n        old = self.buffer\n        self.buffer = [None] * (len(old) * 2)\n        for i in range(self.gap_start):\n            self.buffer[i] = old[i]\n        tail = len(old) - self.gap_end\n        for i in range(tail):\n            self.buffer[len(self.buffer) - tail + i] = old[self.gap_end + i]\n        self.gap_end = len(self.buffer) - tail\n\n    def text(self):\n        return "".join(self.buffer[:self.gap_start] + self.buffer[self.gap_end:])\n\n\ngb = GapBuffer()\nfor c in "HelloWorld":\n    gb.insert(c)\nprint(gb.text())\n`},
- "piece-table":{python:`# Piece table sketch\nclass PieceTable:\n    def __init__(self, original):\n        self.original = original\n        self.append = ""\n        self.pieces = [(0, len(original), "orig")]\n\n    def text(self):\n        out = []\n        for start, length, src in self.pieces:\n            buf = self.original if src == "orig" else self.append\n            out.append(buf[start:start + length])\n        return "".join(out)\n\n\npt = PieceTable("Hello")\npt.append += ", World"\npt.pieces.append((0, 7, "append"))\nprint(pt.text())\n`},
- "finger-tree":{python:`# Finger tree concept\n# Two fingers + recursively nested finger tree in the middle.\n# All operations O(log n). Persistent.\n\nprint("Finger tree: functional sequence structure")\n`},
- "persistent-vector":{python:`# Persistent vector concept\n# 32-ary trie with copy-on-write.\n# Index and update are O(log32 n).\n\nprint("Persistent vector: bitmapped trie with 32-way branching")\n`},
- "hamt":{python:`# HAMT concept\n# 32-way trie over hash bits with a bitmap per node.\n# Lookup and update are O(log32 n).\n\nprint("HAMT: persistent hash map with fast lookup")\n`},
- "rank-select":{python:`# Rank/select bitvector sketch\n# rank(i): number of 1s in bits[0..i)\n# select(k): position of the k-th 1\n\nclass RankSelect:\n    def __init__(self, bits, block_size=64):\n        self.bits = bits\n        self.block_size = block_size\n        self.prefix = [0]\n        count = 0\n        for i, b in enumerate(bits):\n            count += b\n            if (i + 1) % block_size == 0:\n                self.prefix.append(count)\n\n    def rank(self, i):\n        block = i // self.block_size\n        count = self.prefix[block]\n        for j in range(block * self.block_size, i):\n            count += self.bits[j]\n        return count\n\n    def select(self, k):\n        # linear scan for the demo\n        count = 0\n        for i, b in enumerate(self.bits):\n            if b:\n                count += 1\n                if count == k:\n                    return i\n        return -1\n\n\nrs = RankSelect([1, 0, 1, 1, 0, 1, 0, 0, 1, 1])\nprint("rank(5):", rs.rank(5))\nprint("select(3):", rs.select(3))\n`},
- "van-emde-boas":{python:`# van Emde Boas tree sketch\n# Universe size u, recursively split into clusters of sqrt(u).\n# All operations O(log log u).\n\nclass VEB:\n    def __init__(self, u):\n        self.u = u\n        self.min = None\n        self.max = None\n        if u > 2:\n            self.clusters = [None] * int(u ** 0.5)\n            self.summary = None\n\n    def insert(self, x):\n        if self.min is None:\n            self.min = self.max = x\n        else:\n            if x < self.min: self.min, x = x, self.min\n            if self.u > 2:\n                i = x // int(self.u ** 0.5)\n                if self.clusters[i] is None:\n                    self.clusters[i] = VEB(int(self.u ** 0.5))\n                self.clusters[i].insert(x % int(self.u ** 0.5))\n            if x > self.max: self.max = x\n\n\nv = VEB(16)\nfor x in [1, 3, 5, 7, 2, 6]:\n    v.insert(x)\nprint("min:", v.min, "max:", v.max)\n`},
- "xfast-yfast":{python:`# X-fast and Y-fast tries\n# X-fast: binary trie over integer bits, hash table per level.\n# Y-fast: buckets of O(log u) integers + X-fast over bucket reps.\n# Both support predecessor/successor in O(log log u).\n\nprint("X-fast trie: O(log log u), O(u) space")\nprint("Y-fast trie: O(log log u), O(n) space")\n`},
- "li-chao":{python:`# Li Chao tree sketch\nclass LiChao:\n    def __init__(self, lo, hi):\n        self.lo, self.hi = lo, hi\n        self.tree = {}\n\n    def add(self, m, b, node=1, l=None, r=None):\n        if l is None: l, r = self.lo, self.hi\n        if node not in self.tree:\n            self.tree[node] = (m, b); return\n        cm, cb = self.tree[node]\n        mid = (l + r) // 2\n        if m * mid + b < cm * mid + cb:\n            self.tree[node], (m, b) = (m, b), (cm, cb)\n            cm, cb = self.tree[node]\n        if l == r: return\n        if m * l + b < cm * l + cb:\n            self.add(m, b, 2 * node, l, mid)\n        elif m * r + b < cm * r + cb:\n            self.add(m, b, 2 * node + 1, mid + 1, r)\n\n    def query(self, x, node=1, l=None, r=None):\n        if l is None: l, r = self.lo, self.hi\n        if node not in self.tree: return float('inf')\n        cm, cb = self.tree[node]\n        best = cm * x + cb\n        if l == r: return best\n        mid = (l + r) // 2\n        if x <= mid:\n            return min(best, self.query(x, 2 * node, l, mid))\n        return min(best, self.query(x, 2 * node + 1, mid + 1, r))\n\n\nlt = LiChao(-10, 10)\nlt.add(2, 3)\nlt.add(1, 5)\nlt.add(-1, 10)\nfor x in [-5, 0, 5]:\n    print(x, lt.query(x))\n`},
- "ring-buffers":{python:`# SPSC ring buffer concept\nclass RingBuffer:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.buffer = [None] * capacity\n        self.read = 0\n        self.write = 0\n        self.size = 0\n\n    def push(self, x):\n        if self.size == self.capacity: return False\n        self.buffer[self.write] = x\n        self.write = (self.write + 1) % self.capacity\n        self.size += 1\n        return True\n\n    def pop(self):\n        if self.size == 0: return None\n        x = self.buffer[self.read]\n        self.read = (self.read + 1) % self.capacity\n        self.size -= 1\n        return x\n\n\nrb = RingBuffer(4)\nfor i in range(4):\n    rb.push(i)\nprint("full, push 9:", rb.push(9))\nwhile rb.size:\n    print(rb.pop(), end=" ")\nprint()\n`},
- "treiber-stack":{python:`# Treiber stack concept\n# push: new.next = head; CAS(head, old_head, new)\n# pop: old_head = head; new = old_head.next; CAS(head, old_head, new)\n\n# ABA problem requires tagged pointers or hazard pointers.\nprint("Treiber stack: lock-free LIFO stack")\n`},
- "michael-scott":{python:`# Michael-Scott queue concept\n# Lock-free MPMC queue with a dummy head.\n# Enqueue CASes tail.next.\n# Dequeue CASes head.\n\nprint("Michael-Scott queue: lock-free MPMC queue")\n`},
- "hazard-epoch":{python:`# Hazard pointers and epoch reclamation\n# Hazard pointers: each thread publishes the pointers it is reading.\n# Epoch reclamation: retire objects at the current epoch.\n\nprint("Safe memory reclamation for lock-free structures")\n`},
- "fifo-lru":{python:`from collections import OrderedDict\n\n\nclass LRUCache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.cache = OrderedDict()\n\n    def get(self, k):\n        if k not in self.cache: return None\n        self.cache.move_to_end(k)\n        return self.cache[k]\n\n    def put(self, k, v):\n        if k in self.cache:\n            self.cache.move_to_end(k)\n        self.cache[k] = v\n        if len(self.cache) > self.capacity:\n            self.cache.popitem(last=False)\n\n\nc = LRUCache(3)\nc.put("A", 1)\nc.put("B", 2)\nc.put("C", 3)\nprint("get A:", c.get("A"))\nc.put("D", 4)\nprint("get B:", c.get("B"))\nprint("keys:", list(c.cache.keys()))\n`},
- "lfu":{python:`from collections import defaultdict\n\n\nclass LFUCache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.cache = {}\n        self.freq = defaultdict(int)\n\n    def get(self, k):\n        if k not in self.cache: return None\n        self.freq[k] += 1\n        return self.cache[k]\n\n    def put(self, k, v):\n        if k in self.cache:\n            self.cache[k] = v\n            self.freq[k] += 1\n        else:\n            if len(self.cache) >= self.capacity:\n                victim = min(self.cache, key=lambda x: self.freq[x])\n                del self.cache[victim]\n                del self.freq[victim]\n            self.cache[k] = v\n            self.freq[k] = 1\n\n\nc = LFUCache(3)\nc.put("A", 1)\nc.get("A")\nc.put("B", 2)\nc.put("C", 3)\nc.put("D", 4)\nprint("get A:", c.get("A"))\nprint("get B:", c.get("B"))\nprint("keys:", list(c.cache.keys()))\n`},
- "arc":{python:`# ARC cache sketch\n# Two lists T1 (recent) and T2 (frequent), plus ghost lists B1 and B2.\n# On hit in T1, move to T2.\n# On miss in B1, increase T1 target (recency).\n# On miss in B2, increase T2 target (frequency).\n\nprint("ARC cache: adaptive, balances recency and frequency")\n`},
- "lirs-tinylfu":{python:`# TinyLFU sketch\n# Uses a count-min sketch for frequency estimation.\n# Admits a new key only if it is more frequent than the victim.\n\nprint("TinyLFU: admission policy for high-performance caches")\n`},
- "sieve":{python:`# SIEVE cache sketch\n# FIFO with visited bits and a moving hand.\n# Simple and gives near-LRU hit rate.\n\nclass SIEVECache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.cache = {}\n        self.visited = {}\n        self.queue = []\n\n    def get(self, k):\n        if k not in self.cache: return None\n        self.visited[k] = True\n        return self.cache[k]\n\n    def put(self, k, v):\n        if k in self.cache:\n            self.cache[k] = v\n            self.visited[k] = True\n            return\n        if len(self.cache) >= self.capacity:\n            while self.queue:\n                victim = self.queue[0]\n                if self.visited.get(victim, False):\n                    self.visited[victim] = False\n                    self.queue.append(self.queue.pop(0))\n                else:\n                    self.queue.pop(0)\n                    del self.cache[victim]\n                    del self.visited[victim]\n                    break\n        self.cache[k] = v\n        self.visited[k] = False\n        self.queue.append(k)\n\n\nc = SIEVECache(4)\nfor k in ["A", "B", "C", "D", "E"]:\n    c.put(k, k)\nprint("keys:", list(c.cache.keys()))\n`},
- "belady":{python:`def belady(sequence, capacity):\n    cache = set()\n    misses = 0\n    for i, x in enumerate(sequence):\n        if x in cache: continue\n        misses += 1\n        if len(cache) >= capacity:\n            # evict the item used farthest in the future\n            victim = None\n            farthest = -1\n            for k in cache:\n                try:\n                    next_use = sequence.index(k, i + 1)\n                except ValueError:\n                    next_use = float('inf')\n                if next_use > farthest:\n                    farthest = next_use\n                    victim = k\n            cache.remove(victim)\n        cache.add(x)\n    return misses\n\n\nseq = ["A", "B", "C", "A", "B", "D", "A", "C", "B", "D"]\nprint("Belady misses (capacity 3):", belady(seq, 3))\n`},
+ "array":{python:`class DynamicArray:
+    def __init__(self, capacity=4):
+        self.capacity = capacity
+        self.data = [None] * capacity
+        self.size = 0
+
+    def append(self, x):
+        if self.size == self.capacity:
+            self.capacity *= 2
+            new_data = [None] * self.capacity
+            for i in range(self.size):
+                new_data[i] = self.data[i]
+            self.data = new_data
+        self.data[self.size] = x
+        self.size += 1
+
+    def get(self, i):
+        if not 0 <= i < self.size:
+            raise IndexError(i)
+        return self.data[i]
+
+    def __len__(self):
+        return self.size
+
+
+a = DynamicArray()
+for x in [5, 3, 8, 1, 9]:
+    a.append(x)
+print(a.data[:a.size], "capacity:", a.capacity)
+`},
+ "linked-list":{python:`class Node:
+    __slots__ = ("value", "next")
+    def __init__(self, value, nxt=None):
+        self.value = value
+        self.next = nxt
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.size = 0
+
+    def push_front(self, x):
+        self.head = Node(x, self.head)
+        self.size += 1
+
+    def pop_front(self):
+        if self.head is None:
+            raise IndexError("empty")
+        value = self.head.value
+        self.head = self.head.next
+        self.size -= 1
+        return value
+
+    def find(self, x):
+        cur = self.head
+        while cur:
+            if cur.value == x:
+                return True
+            cur = cur.next
+        return False
+
+    def __iter__(self):
+        cur = self.head
+        while cur:
+            yield cur.value
+            cur = cur.next
+
+
+ll = LinkedList()
+for x in [5, 3, 8, 1]:
+    ll.push_front(x)
+print(list(ll))
+print("find 3:", ll.find(3), "find 9:", ll.find(9))
+`},
+ "stack-queue":{python:`from collections import deque
+
+
+class Stack:
+    def __init__(self):
+        self.data = []
+    def push(self, x): self.data.append(x)
+    def pop(self): return self.data.pop()
+    def peek(self): return self.data[-1]
+    def __len__(self): return len(self.data)
+
+
+class Queue:
+    def __init__(self):
+        self.data = deque()
+    def enqueue(self, x): self.data.append(x)
+    def dequeue(self): return self.data.popleft()
+    def front(self): return self.data[0]
+    def __len__(self): return len(self.data)
+
+
+s = Stack()
+for x in [1, 2, 3]: s.push(x)
+print("stack pop:", s.pop())
+
+q = Queue()
+for x in [1, 2, 3]: q.enqueue(x)
+print("queue dequeue:", q.dequeue())
+`},
+ "deque":{python:`from collections import deque
+
+
+d = deque()
+d.append(1)
+d.append(2)
+d.appendleft(0)
+print(d)
+d.pop()
+print(d)
+d.popleft()
+print(d)
+`},
+ "hash-table":{python:`class HashTable:
+    def __init__(self, m=11):
+        self.m = m
+        self.buckets = [[] for _ in range(m)]
+        self.size = 0
+
+    def _hash(self, k):
+        return hash(k) % self.m
+
+    def put(self, k, v):
+        bucket = self.buckets[self._hash(k)]
+        for i, (key, _) in enumerate(bucket):
+            if key == k:
+                bucket[i] = (k, v)
+                return
+        bucket.append((k, v))
+        self.size += 1
+
+    def get(self, k):
+        for key, v in self.buckets[self._hash(k)]:
+            if key == k:
+                return v
+        raise KeyError(k)
+
+    def delete(self, k):
+        bucket = self.buckets[self._hash(k)]
+        for i, (key, _) in enumerate(bucket):
+            if key == k:
+                del bucket[i]
+                self.size -= 1
+                return
+        raise KeyError(k)
+
+
+ht = HashTable()
+ht.put("apple", 5)
+ht.put("banana", 7)
+ht.put("cherry", 9)
+print(ht.get("banana"))
+ht.delete("apple")
+print("size:", ht.size)
+`},
+ "hash-set":{python:`s = set()
+for x in ["A", "B", "C", "A"]:
+    s.add(x)
+print(s)
+print("B" in s)
+print("D" in s)
+s.discard("A")
+print(s)
+
+# Set algebra
+a = {1, 2, 3, 4}
+b = {3, 4, 5, 6}
+print("union:", a | b)
+print("intersection:", a & b)
+print("difference:", a - b)
+`},
+ "bloom":{python:`import math
+
+
+class BloomFilter:
+    def __init__(self, m, k):
+        self.m = m
+        self.k = k
+        self.bits = bytearray((m + 7) // 8)
+
+    def _positions(self, key):
+        data = key.encode()
+        h1 = hash(data) & 0xFFFFFFFF
+        h2 = (hash(data[::-1]) | 1) & 0xFFFFFFFF
+        return [(h1 + i * h2) % self.m for i in range(self.k)]
+
+    def add(self, key):
+        for p in self._positions(key):
+            self.bits[p >> 3] |= 1 << (p & 7)
+
+    def __contains__(self, key):
+        return all(self.bits[p >> 3] & (1 << (p & 7)) for p in self._positions(key))
+
+
+n = 10000
+m = int(n * 9.6)
+k = max(1, round(m / n * math.log(2)))
+f = BloomFilter(m, k)
+for i in range(n):
+    f.add(f"user:{i}")
+print("in:", "user:500" in f)
+print("out:", "nobody:999" in f)
+`},
+ "cuckoo":{python:`import random
+
+
+class CuckooFilter:
+    def __init__(self, capacity, bucket_size=4):
+        self.capacity = capacity
+        self.bucket_size = bucket_size
+        self.buckets = [[] for _ in range(capacity)]
+
+    def _fingerprint(self, key):
+        return hash(key) % 255 + 1
+
+    def _index1(self, key):
+        return hash(key) % self.capacity
+
+    def _index2(self, key, fp):
+        return (hash(key) ^ hash(str(fp))) % self.capacity
+
+    def insert(self, key):
+        fp = self._fingerprint(key)
+        i1 = self._index1(key)
+        i2 = self._index2(key, fp)
+        if len(self.buckets[i1]) < self.bucket_size:
+            self.buckets[i1].append(fp)
+            return True
+        if len(self.buckets[i2]) < self.bucket_size:
+            self.buckets[i2].append(fp)
+            return True
+        # kick
+        i = random.choice([i1, i2])
+        for _ in range(100):
+            slot = random.randrange(self.bucket_size)
+            fp, self.buckets[i][slot] = self.buckets[i][slot], fp
+            i = (i ^ hash(str(fp))) % self.capacity
+            if len(self.buckets[i]) < self.bucket_size:
+                self.buckets[i].append(fp)
+                return True
+        return False
+
+    def contains(self, key):
+        fp = self._fingerprint(key)
+        return fp in self.buckets[self._index1(key)] or fp in self.buckets[self._index2(key, fp)]
+
+
+cf = CuckooFilter(64)
+for i in range(50):
+    cf.insert(f"key-{i}")
+print("in:", cf.contains("key-10"))
+print("out:", cf.contains("missing"))
+`},
+ "binary-tree":{python:`class Node:
+    __slots__ = ("value", "left", "right")
+    def __init__(self, value):
+        self.value = value
+        self.left = self.right = None
+
+
+def insert_bst(root, x):
+    if root is None: return Node(x)
+    if x < root.value: root.left = insert_bst(root.left, x)
+    else: root.right = insert_bst(root.right, x)
+    return root
+
+
+def inorder(n, out):
+    if n is None: return
+    inorder(n.left, out)
+    out.append(n.value)
+    inorder(n.right, out)
+
+
+def preorder(n, out):
+    if n is None: return
+    out.append(n.value)
+    preorder(n.left, out)
+    preorder(n.right, out)
+
+
+def postorder(n, out):
+    if n is None: return
+    postorder(n.left, out)
+    postorder(n.right, out)
+    out.append(n.value)
+
+
+root = None
+for x in [5, 3, 8, 1, 4, 7, 9]:
+    root = insert_bst(root, x)
+
+o = []; inorder(root, o); print("inorder:", o)
+o = []; preorder(root, o); print("preorder:", o)
+o = []; postorder(root, o); print("postorder:", o)
+`},
+ "bst":{python:`class BST:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, x):
+        self.root = self._insert(self.root, x)
+
+    def _insert(self, n, x):
+        if n is None: return {"v": x, "l": None, "r": None}
+        if x < n["v"]: n["l"] = self._insert(n["l"], x)
+        else: n["r"] = self._insert(n["r"], x)
+        return n
+
+    def find(self, x):
+        n = self.root
+        while n:
+            if x == n["v"]: return True
+            n = n["l"] if x < n["v"] else n["r"]
+        return False
+
+
+t = BST()
+for x in [5, 3, 8, 1, 4]:
+    t.insert(x)
+print("find 4:", t.find(4), "find 7:", t.find(7))
+`},
+ "avl":{python:`class AVLNode:
+    __slots__ = ("v", "l", "r", "h")
+    def __init__(self, v):
+        self.v = v
+        self.l = self.r = None
+        self.h = 1
+
+
+def height(n):
+    return n.h if n else 0
+
+
+def update(n):
+    n.h = 1 + max(height(n.l), height(n.r))
+
+
+def rotate_right(n):
+    l = n.l
+    n.l = l.r
+    l.r = n
+    update(n); update(l)
+    return l
+
+
+def rotate_left(n):
+    r = n.r
+    n.r = r.l
+    r.l = n
+    update(n); update(r)
+    return r
+
+
+def balance(n):
+    update(n)
+    bf = height(n.l) - height(n.r)
+    if bf > 1:
+        if height(n.l.l) < height(n.l.r): n.l = rotate_left(n.l)
+        return rotate_right(n)
+    if bf < -1:
+        if height(n.r.r) < height(n.r.l): n.r = rotate_right(n.r)
+        return rotate_left(n)
+    return n
+
+
+def insert(n, x):
+    if n is None: return AVLNode(x)
+    if x < n.v: n.l = insert(n.l, x)
+    else: n.r = insert(n.r, x)
+    return balance(n)
+
+
+root = None
+for x in [10, 20, 30, 40, 50, 25]:
+    root = insert(root, x)
+print("root:", root.v, "height:", root.h)
+`},
+ "red-black":{python:`# Simplified red-black tree sketch
+RED = True
+BLACK = False
+
+
+class Node:
+    def __init__(self, key, colour=RED):
+        self.key = key
+        self.colour = colour
+        self.left = self.right = None
+        self.parent = None
+
+
+# Full implementation is long.
+# See CLRS Chapter 13 for details.
+# Red-black invariants:
+#   1. Every node is red or black
+#   2. Root is black
+#   3. Every nil leaf is black
+#   4. Red node has black children
+#   5. Every path from a node to its leaves has same number of black nodes
+
+root = Node(10, BLACK)
+root.left = Node(5)
+root.left.parent = root
+print("root colour black:", root.colour == BLACK)
+`},
+ "treap":{python:`import random
+
+
+class TreapNode:
+    __slots__ = ("key", "prio", "l", "r")
+    def __init__(self, key):
+        self.key = key
+        self.prio = random.random()
+        self.l = self.r = None
+
+
+def rotate_right(n):
+    l = n.l
+    n.l = l.r
+    l.r = n
+    return l
+
+
+def rotate_left(n):
+    r = n.r
+    n.r = r.l
+    r.l = n
+    return r
+
+
+def insert(n, key):
+    if n is None: return TreapNode(key)
+    if key < n.key:
+        n.l = insert(n.l, key)
+        if n.l.prio > n.prio: n = rotate_right(n)
+    else:
+        n.r = insert(n.r, key)
+        if n.r.prio > n.prio: n = rotate_left(n)
+    return n
+
+
+root = None
+for x in [5, 3, 8, 1, 4, 7, 9]:
+    root = insert(root, x)
+print("root:", root.key)
+`},
+ "two-three-four":{python:`# 2-3-4 tree concepts
+# Nodes have 1, 2, or 3 keys and 2, 3, or 4 children.
+# Same structure as a red-black tree viewed differently.
+# In this sketch we show the invariants.
+
+INVARIANTS = [
+    "every node has 1, 2, or 3 keys",
+    "a node with k keys has k+1 children",
+    "all leaves at the same depth",
+    "keys are sorted within each node",
+]
+for inv in INVARIANTS:
+    print("-", inv)
+`},
+ "btree":{python:`# B-tree of order 4 (t=2)
+class BNode:
+    def __init__(self, leaf=True):
+        self.keys = []
+        self.children = []
+        self.leaf = leaf
+
+
+class BTree:
+    def __init__(self, t=2):
+        self.t = t
+        self.root = BNode()
+
+    def search(self, node, key):
+        i = 0
+        while i < len(node.keys) and key > node.keys[i]:
+            i += 1
+        if i < len(node.keys) and node.keys[i] == key:
+            return node, i
+        if node.leaf:
+            return None
+        return self.search(node.children[i], key)
+
+    def split_child(self, parent, i):
+        t = self.t
+        y = parent.children[i]
+        z = BNode(leaf=y.leaf)
+        median = y.keys[t - 1]
+        z.keys = y.keys[t:]
+        y.keys = y.keys[:t - 1]
+        if not y.leaf:
+            z.children = y.children[t:]
+            y.children = y.children[:t]
+        parent.keys.insert(i, median)
+        parent.children.insert(i + 1, z)
+
+    def insert(self, key):
+        root = self.root
+        if len(root.keys) == 2 * self.t - 1:
+            new_root = BNode(leaf=False)
+            new_root.children.append(root)
+            self.split_child(new_root, 0)
+            self.root = new_root
+            self._insert_non_full(new_root, key)
+        else:
+            self._insert_non_full(root, key)
+
+    def _insert_non_full(self, node, key):
+        i = len(node.keys) - 1
+        if node.leaf:
+            node.keys.append(None)
+            while i >= 0 and key < node.keys[i]:
+                node.keys[i + 1] = node.keys[i]
+                i -= 1
+            node.keys[i + 1] = key
+        else:
+            while i >= 0 and key < node.keys[i]:
+                i -= 1
+            i += 1
+            if len(node.children[i].keys) == 2 * self.t - 1:
+                self.split_child(node, i)
+                if key > node.keys[i]:
+                    i += 1
+            self._insert_non_full(node.children[i], key)
+
+
+bt = BTree(t=2)
+for x in [10, 20, 5, 6, 12, 30, 7, 17]:
+    bt.insert(x)
+print("root keys:", bt.root.keys)
+`},
+ "bplus":{python:`# B+ tree concept sketch
+class BPlusNode:
+    def __init__(self, leaf=False):
+        self.keys = []
+        self.children = []
+        self.next = None
+        self.leaf = leaf
+
+
+# B+ tree properties:
+#   - internal nodes hold keys and pointers, no data
+#   - all data is in the leaves
+#   - leaves are linked in sorted order
+
+print("B+ tree leaf links enable efficient range queries.")
+print("Most databases use B+ trees for their indexes.")
+`},
+ "trie":{python:`class TrieNode:
+    __slots__ = ("children", "is_end")
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for ch in word:
+            node = node.children.setdefault(ch, TrieNode())
+        node.is_end = True
+
+    def search(self, word):
+        node = self.root
+        for ch in word:
+            if ch not in node.children: return False
+            node = node.children[ch]
+        return node.is_end
+
+    def starts_with(self, prefix):
+        node = self.root
+        for ch in prefix:
+            if ch not in node.children: return False
+            node = node.children[ch]
+        return True
+
+
+t = Trie()
+for w in ["apple", "app", "apply", "banana", "band", "bank"]:
+    t.insert(w)
+print("search apple:", t.search("apple"))
+print("search ap:", t.search("ap"))
+print("starts_with ba:", t.starts_with("ba"))
+`},
+ "binary-heap":{python:`import heapq
+
+
+h = []
+for x in [5, 3, 8, 1, 9, 2, 7, 4]:
+    heapq.heappush(h, x)
+print("heap array:", h)
+print("min:", h[0])
+while h:
+    print(heapq.heappop(h), end=" ")
+print()
+`},
+ "dary":{python:`class DAryHeap:
+    def __init__(self, d=4):
+        self.d = d
+        self.data = []
+
+    def push(self, x):
+        self.data.append(x)
+        self._sift_up(len(self.data) - 1)
+
+    def pop(self):
+        if not self.data: raise IndexError
+        top = self.data[0]
+        last = self.data.pop()
+        if self.data:
+            self.data[0] = last
+            self._sift_down(0)
+        return top
+
+    def _parent(self, i): return (i - 1) // self.d
+
+    def _sift_up(self, i):
+        while i > 0:
+            p = self._parent(i)
+            if self.data[i] < self.data[p]:
+                self.data[i], self.data[p] = self.data[p], self.data[i]
+                i = p
+            else:
+                break
+
+    def _sift_down(self, i):
+        n = len(self.data)
+        while True:
+            smallest = i
+            for j in range(1, self.d + 1):
+                c = self.d * i + j
+                if c < n and self.data[c] < self.data[smallest]:
+                    smallest = c
+            if smallest == i: break
+            self.data[i], self.data[smallest] = self.data[smallest], self.data[i]
+            i = smallest
+
+
+h = DAryHeap(d=4)
+for x in [5, 3, 8, 1, 9, 2, 7, 4]:
+    h.push(x)
+while h.data:
+    print(h.pop(), end=" ")
+print()
+`},
+ "binomial-heap":{python:`# Binomial heap concept
+# Binomial tree B_k:
+#   B_0 = single node
+#   B_k = two B_{k-1}, one attached to the other
+#   B_k has 2^k nodes and height k
+
+# Binomial heap = forest of binomial trees with distinct orders
+
+# Operations:
+#   find_min       O(log n)
+#   merge          O(log n)
+#   insert         O(log n)
+#   extract_min    O(log n)
+#   decrease_key   O(log n)
+#   delete         O(log n)
+
+print("Binomial heap: mergeable priority queue")
+`},
+ "fibonacci":{python:`# Fibonacci heap concept
+# Amortized bounds:
+#   find_min       O(1)
+#   insert         O(1)
+#   merge          O(1)
+#   decrease_key   O(1)
+#   delete         O(log n)
+#   extract_min    O(log n)
+
+print("Fibonacci heaps make Dijkstra O(E + V log V)")
+print("but constants are high, so binary heaps often win in practice")
+`},
+ "radix":{python:`# Radix heap concept
+# Keys must be monotone (extract_min returns keys in increasing order)
+# Operations:
+#   insert    O(1) amortized
+#   find_min  O(1)
+#   extract   O(log C) where C is the maximum key
+#
+# Used for Dijkstra on graphs with integer weights.
+
+print("Radix heap: specialized for monotone integer keys")
+`},
+ "prefix":{python:`a = [3, 1, 4, 1, 5, 9, 2, 6]
+prefix = [0] * (len(a) + 1)
+for i, x in enumerate(a):
+    prefix[i + 1] = prefix[i] + x
+
+print("prefix:", prefix)
+print("sum a[2..5]:", prefix[6] - prefix[2])
+print("sum a[0..4]:", prefix[4] - prefix[0])
+`},
+ "fenwick":{python:`class Fenwick:
+    def __init__(self, a):
+        self.n = len(a)
+        self.tree = [0] * (self.n + 1)
+        for i, x in enumerate(a):
+            self.update(i + 1, x)
+
+    @staticmethod
+    def _lowbit(i):
+        return i & (-i)
+
+    def update(self, i, delta):
+        while i <= self.n:
+            self.tree[i] += delta
+            i += self._lowbit(i)
+
+    def query(self, i):
+        s = 0
+        while i > 0:
+            s += self.tree[i]
+            i -= self._lowbit(i)
+        return s
+
+    def range_sum(self, l, r):
+        return self.query(r) - self.query(l - 1)
+
+
+f = Fenwick([3, 1, 4, 1, 5, 9, 2, 6])
+print("query 5:", f.query(5))
+f.update(2, 10)
+print("after update query 5:", f.query(5))
+print("range 2..5:", f.range_sum(2, 5))
+`},
+ "segtree":{python:`class SegTree:
+    def __init__(self, a):
+        self.n = len(a)
+        self.tree = [0] * (4 * self.n)
+        self._build(a, 1, 0, self.n - 1)
+
+    def _build(self, a, node, lo, hi):
+        if lo == hi:
+            self.tree[node] = a[lo]
+        else:
+            mid = (lo + hi) // 2
+            self._build(a, 2 * node, lo, mid)
+            self._build(a, 2 * node + 1, mid + 1, hi)
+            self.tree[node] = self.tree[2 * node] + self.tree[2 * node + 1]
+
+    def query(self, ql, qr):
+        return self._query(1, 0, self.n - 1, ql, qr)
+
+    def _query(self, node, lo, hi, ql, qr):
+        if qr < lo or hi < ql: return 0
+        if ql <= lo and hi <= qr: return self.tree[node]
+        mid = (lo + hi) // 2
+        return self._query(2 * node, lo, mid, ql, qr) + self._query(2 * node + 1, mid + 1, hi, ql, qr)
+
+    def update(self, idx, val):
+        self._update(1, 0, self.n - 1, idx, val)
+
+    def _update(self, node, lo, hi, idx, val):
+        if lo == hi:
+            self.tree[node] = val
+            return
+        mid = (lo + hi) // 2
+        if idx <= mid: self._update(2 * node, lo, mid, idx, val)
+        else: self._update(2 * node + 1, mid + 1, hi, idx, val)
+        self.tree[node] = self.tree[2 * node] + self.tree[2 * node + 1]
+
+
+st = SegTree([3, 1, 4, 1, 5, 9, 2, 6])
+print("query 2..5:", st.query(2, 5))
+st.update(3, 10)
+print("after update query 2..5:", st.query(2, 5))
+`},
+ "lazy":{python:`# Lazy segment tree sketch
+class LazySegTree:
+    def __init__(self, a):
+        self.n = len(a)
+        self.tree = [0] * (4 * self.n)
+        self.lazy = [0] * (4 * self.n)
+        self._build(a, 1, 0, self.n - 1)
+
+    def _build(self, a, node, lo, hi):
+        if lo == hi:
+            self.tree[node] = a[lo]
+        else:
+            mid = (lo + hi) // 2
+            self._build(a, 2 * node, lo, mid)
+            self._build(a, 2 * node + 1, mid + 1, hi)
+            self.tree[node] = self.tree[2 * node] + self.tree[2 * node + 1]
+
+    def _push(self, node, lo, hi):
+        if self.lazy[node] != 0:
+            mid = (lo + hi) // 2
+            self.tree[2 * node] += self.lazy[node] * (mid - lo + 1)
+            self.tree[2 * node + 1] += self.lazy[node] * (hi - mid)
+            self.lazy[2 * node] += self.lazy[node]
+            self.lazy[2 * node + 1] += self.lazy[node]
+            self.lazy[node] = 0
+
+    def update(self, ql, qr, val):
+        self._update(1, 0, self.n - 1, ql, qr, val)
+
+    def _update(self, node, lo, hi, ql, qr, val):
+        if qr < lo or hi < ql: return
+        if ql <= lo and hi <= qr:
+            self.tree[node] += val * (hi - lo + 1)
+            self.lazy[node] += val
+            return
+        self._push(node, lo, hi)
+        mid = (lo + hi) // 2
+        self._update(2 * node, lo, mid, ql, qr, val)
+        self._update(2 * node + 1, mid + 1, hi, ql, qr, val)
+        self.tree[node] = self.tree[2 * node] + self.tree[2 * node + 1]
+
+    def query(self, ql, qr):
+        return self._query(1, 0, self.n - 1, ql, qr)
+
+    def _query(self, node, lo, hi, ql, qr):
+        if qr < lo or hi < ql: return 0
+        if ql <= lo and hi <= qr: return self.tree[node]
+        self._push(node, lo, hi)
+        mid = (lo + hi) // 2
+        return self._query(2 * node, lo, mid, ql, qr) + self._query(2 * node + 1, mid + 1, hi, ql, qr)
+
+
+lz = LazySegTree([1, 2, 3, 4, 5])
+lz.update(1, 3, 10)
+print("query 0..4:", lz.query(0, 4))
+print("query 1..3:", lz.query(1, 3))
+`},
+ "sparse":{python:`import math
+
+
+def build_sparse_min(a):
+    n = len(a)
+    log = [0] * (n + 1)
+    for i in range(2, n + 1):
+        log[i] = log[i // 2] + 1
+    k = log[n] + 1
+    table = [[0] * n for _ in range(k)]
+    table[0] = a[:]
+    for j in range(1, k):
+        for i in range(n - (1 << j) + 1):
+            table[j][i] = min(table[j - 1][i], table[j - 1][i + (1 << (j - 1))])
+    return table, log
+
+
+def query(table, log, l, r):
+    j = log[r - l + 1]
+    return min(table[j][l], table[j][r - (1 << j) + 1])
+
+
+a = [3, 1, 4, 1, 5, 9, 2, 6]
+table, log = build_sparse_min(a)
+print("min 2..5:", query(table, log, 2, 5))
+print("min 0..3:", query(table, log, 0, 3))
+`},
+ "mos":{python:`# Mo's algorithm sketch
+import math
+from collections import Counter
+
+
+def mos_algorithm(a, queries):
+    n = len(a)
+    block_size = int(math.sqrt(n)) + 1
+    queries = [(l, r, i) for i, (l, r) in enumerate(queries)]
+    queries.sort(key=lambda q: (q[0] // block_size, q[1] if (q[0] // block_size) % 2 == 0 else -q[1]))
+    answers = [0] * len(queries)
+    counts = Counter()
+    distinct = [0]
+    cur_l, cur_r = 0, -1
+
+    def add(i):
+        counts[a[i]] += 1
+        if counts[a[i]] == 1: distinct[0] += 1
+
+    def remove(i):
+        counts[a[i]] -= 1
+        if counts[a[i]] == 0: distinct[0] -= 1
+
+    for l, r, idx in queries:
+        while cur_l > l: cur_l -= 1; add(cur_l)
+        while cur_r < r: cur_r += 1; add(cur_r)
+        while cur_l < l: remove(cur_l); cur_l += 1
+        while cur_r > r: remove(cur_r); cur_r -= 1
+        answers[idx] = distinct[0]
+    return answers
+
+
+a = [1, 1, 2, 3, 2, 1, 4, 5, 1]
+queries = [(0, 4), (1, 5), (2, 7), (0, 8)]
+print("distinct counts:", mos_algorithm(a, queries))
+`},
+ "wavelet":{python:`# Wavelet tree sketch
+# Recursively splits the alphabet and stores a bitmap per level.
+# Supports rank, select, range quantile, range counting in O(log sigma).
+
+print("Wavelet tree: compact index for range queries")
+print("Used in FM-index and compressed text indexes")
+`},
+ "persistent-seg":{python:`# Persistent segment tree sketch
+# Each update creates O(log n) new nodes.
+# Old versions remain valid.
+
+class Node:
+    __slots__ = ("left", "right", "value")
+    def __init__(self, left=None, right=None, value=0):
+        self.left = left
+        self.right = right
+        self.value = value
+
+
+def update(prev, lo, hi, idx, val):
+    node = Node()
+    if lo == hi:
+        node.value = val
+        return node
+    mid = (lo + hi) // 2
+    if idx <= mid:
+        node.left = update(prev.left, lo, mid, idx, val)
+        node.right = prev.right
+    else:
+        node.left = prev.left
+        node.right = update(prev.right, mid + 1, hi, idx, val)
+    node.value = (node.left.value if node.left else 0) + (node.right.value if node.right else 0)
+    return node
+
+
+# Build initial tree, then update to create new versions.
+print("Persistent segment tree: all versions remain valid")
+`},
+ "order-stat":{python:`# Order-statistic tree sketch
+# BST where each node stores its subtree size.
+
+class Node:
+    __slots__ = ("key", "left", "right", "size")
+    def __init__(self, key):
+        self.key = key
+        self.left = self.right = None
+        self.size = 1
+
+
+def size(n): return n.size if n else 0
+
+
+def update(n):
+    if n: n.size = 1 + size(n.left) + size(n.right)
+
+
+def rank(root, key):
+    count = 0
+    node = root
+    while node:
+        if key <= node.key:
+            node = node.left
+        else:
+            count += 1 + size(node.left)
+            node = node.right
+    return count
+
+
+def select(root, k):
+    node = root
+    while node:
+        ls = size(node.left)
+        if k == ls: return node.key
+        if k < ls: node = node.left
+        else: k -= ls + 1; node = node.right
+    return None
+
+
+root = Node(5)
+root.left = Node(3); root.right = Node(8)
+root.left.left = Node(1); root.left.right = Node(4)
+update(root.left); update(root); update(root.right)
+print("rank(5):", rank(root, 5))
+print("select(2):", select(root, 2))
+`},
+ "union-find":{python:`class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+
+    def find(self, x):
+        while self.parent[x] != x:
+            self.parent[x] = self.parent[self.parent[x]]
+            x = self.parent[x]
+        return x
+
+    def union(self, a, b):
+        ra, rb = self.find(a), self.find(b)
+        if ra == rb: return False
+        if self.rank[ra] < self.rank[rb]:
+            ra, rb = rb, ra
+        self.parent[rb] = ra
+        if self.rank[ra] == self.rank[rb]:
+            self.rank[ra] += 1
+        return True
+
+    def connected(self, a, b):
+        return self.find(a) == self.find(b)
+
+
+uf = UnionFind(10)
+uf.union(0, 1)
+uf.union(2, 3)
+uf.union(1, 3)
+print("connected 0 3:", uf.connected(0, 3))
+print("connected 0 4:", uf.connected(0, 4))
+`},
+ "rollback-dsu":{python:`class RollbackDSU:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.size = [1] * n
+        self.history = []
+
+    def find(self, x):
+        while self.parent[x] != x:
+            x = self.parent[x]
+        return x
+
+    def union(self, a, b):
+        ra, rb = self.find(a), self.find(b)
+        if ra == rb: return
+        if self.size[ra] < self.size[rb]:
+            ra, rb = rb, ra
+        self.history.append((rb, self.parent[rb], ra, self.size[ra]))
+        self.parent[rb] = ra
+        self.size[ra] += self.size[rb]
+
+    def rollback(self):
+        rb, old_parent, ra, old_size = self.history.pop()
+        self.parent[rb] = old_parent
+        self.size[ra] = old_size
+
+
+uf = RollbackDSU(10)
+uf.union(0, 1)
+uf.union(2, 3)
+print("connected 2 3:", uf.find(2) == uf.find(3))
+uf.rollback()
+print("after rollback:", uf.find(2) == uf.find(3))
+`},
+ "link-cut":{python:`# Link-cut tree sketch
+# Maintains a dynamic forest with O(log n) amortized link, cut, and path queries.
+# Uses splay trees over preferred paths.
+
+print("Link-cut tree: dynamic forest with path queries")
+print("access(v): makes path from root to v a preferred path")
+`},
+ "euler-tour":{python:`# Euler-tour tree sketch
+# A tree stored as its Euler tour in a balanced BST.
+# Link and cut become split and join on the tour.
+
+print("Euler-tour tree: O(log n) link, cut, subtree query")
+`},
+ "ropes":{python:`# Rope concept
+# A rope is a binary tree of strings.
+# Concatenation is O(1) (creates a new root).
+# Split and index are O(log n).
+
+print("Rope: tree of strings for long text editing")
+`},
+ "gap-buffer":{python:`class GapBuffer:
+    def __init__(self, capacity=32):
+        self.buffer = [None] * capacity
+        self.gap_start = 0
+        self.gap_end = capacity
+
+    def insert(self, c):
+        if self.gap_start == self.gap_end:
+            self._grow()
+        self.buffer[self.gap_start] = c
+        self.gap_start += 1
+
+    def _grow(self):
+        old = self.buffer
+        self.buffer = [None] * (len(old) * 2)
+        for i in range(self.gap_start):
+            self.buffer[i] = old[i]
+        tail = len(old) - self.gap_end
+        for i in range(tail):
+            self.buffer[len(self.buffer) - tail + i] = old[self.gap_end + i]
+        self.gap_end = len(self.buffer) - tail
+
+    def text(self):
+        return "".join(self.buffer[:self.gap_start] + self.buffer[self.gap_end:])
+
+
+gb = GapBuffer()
+for c in "HelloWorld":
+    gb.insert(c)
+print(gb.text())
+`},
+ "piece-table":{python:`# Piece table sketch
+class PieceTable:
+    def __init__(self, original):
+        self.original = original
+        self.append = ""
+        self.pieces = [(0, len(original), "orig")]
+
+    def text(self):
+        out = []
+        for start, length, src in self.pieces:
+            buf = self.original if src == "orig" else self.append
+            out.append(buf[start:start + length])
+        return "".join(out)
+
+
+pt = PieceTable("Hello")
+pt.append += ", World"
+pt.pieces.append((0, 7, "append"))
+print(pt.text())
+`},
+ "finger-tree":{python:`# Finger tree concept
+# Two fingers + recursively nested finger tree in the middle.
+# All operations O(log n). Persistent.
+
+print("Finger tree: functional sequence structure")
+`},
+ "persistent-vector":{python:`# Persistent vector concept
+# 32-ary trie with copy-on-write.
+# Index and update are O(log32 n).
+
+print("Persistent vector: bitmapped trie with 32-way branching")
+`},
+ "hamt":{python:`# HAMT concept
+# 32-way trie over hash bits with a bitmap per node.
+# Lookup and update are O(log32 n).
+
+print("HAMT: persistent hash map with fast lookup")
+`},
+ "rank-select":{python:`# Rank/select bitvector sketch
+# rank(i): number of 1s in bits[0..i)
+# select(k): position of the k-th 1
+
+class RankSelect:
+    def __init__(self, bits, block_size=64):
+        self.bits = bits
+        self.block_size = block_size
+        self.prefix = [0]
+        count = 0
+        for i, b in enumerate(bits):
+            count += b
+            if (i + 1) % block_size == 0:
+                self.prefix.append(count)
+
+    def rank(self, i):
+        block = i // self.block_size
+        count = self.prefix[block]
+        for j in range(block * self.block_size, i):
+            count += self.bits[j]
+        return count
+
+    def select(self, k):
+        # linear scan for the demo
+        count = 0
+        for i, b in enumerate(self.bits):
+            if b:
+                count += 1
+                if count == k:
+                    return i
+        return -1
+
+
+rs = RankSelect([1, 0, 1, 1, 0, 1, 0, 0, 1, 1])
+print("rank(5):", rs.rank(5))
+print("select(3):", rs.select(3))
+`},
+ "van-emde-boas":{python:`# van Emde Boas tree sketch
+# Universe size u, recursively split into clusters of sqrt(u).
+# All operations O(log log u).
+
+class VEB:
+    def __init__(self, u):
+        self.u = u
+        self.min = None
+        self.max = None
+        if u > 2:
+            self.clusters = [None] * int(u ** 0.5)
+            self.summary = None
+
+    def insert(self, x):
+        if self.min is None:
+            self.min = self.max = x
+        else:
+            if x < self.min: self.min, x = x, self.min
+            if self.u > 2:
+                i = x // int(self.u ** 0.5)
+                if self.clusters[i] is None:
+                    self.clusters[i] = VEB(int(self.u ** 0.5))
+                self.clusters[i].insert(x % int(self.u ** 0.5))
+            if x > self.max: self.max = x
+
+
+v = VEB(16)
+for x in [1, 3, 5, 7, 2, 6]:
+    v.insert(x)
+print("min:", v.min, "max:", v.max)
+`},
+ "xfast-yfast":{python:`# X-fast and Y-fast tries
+# X-fast: binary trie over integer bits, hash table per level.
+# Y-fast: buckets of O(log u) integers + X-fast over bucket reps.
+# Both support predecessor/successor in O(log log u).
+
+print("X-fast trie: O(log log u), O(u) space")
+print("Y-fast trie: O(log log u), O(n) space")
+`},
+ "li-chao":{python:`# Li Chao tree sketch
+class LiChao:
+    def __init__(self, lo, hi):
+        self.lo, self.hi = lo, hi
+        self.tree = {}
+
+    def add(self, m, b, node=1, l=None, r=None):
+        if l is None: l, r = self.lo, self.hi
+        if node not in self.tree:
+            self.tree[node] = (m, b); return
+        cm, cb = self.tree[node]
+        mid = (l + r) // 2
+        if m * mid + b < cm * mid + cb:
+            self.tree[node], (m, b) = (m, b), (cm, cb)
+            cm, cb = self.tree[node]
+        if l == r: return
+        if m * l + b < cm * l + cb:
+            self.add(m, b, 2 * node, l, mid)
+        elif m * r + b < cm * r + cb:
+            self.add(m, b, 2 * node + 1, mid + 1, r)
+
+    def query(self, x, node=1, l=None, r=None):
+        if l is None: l, r = self.lo, self.hi
+        if node not in self.tree: return float('inf')
+        cm, cb = self.tree[node]
+        best = cm * x + cb
+        if l == r: return best
+        mid = (l + r) // 2
+        if x <= mid:
+            return min(best, self.query(x, 2 * node, l, mid))
+        return min(best, self.query(x, 2 * node + 1, mid + 1, r))
+
+
+lt = LiChao(-10, 10)
+lt.add(2, 3)
+lt.add(1, 5)
+lt.add(-1, 10)
+for x in [-5, 0, 5]:
+    print(x, lt.query(x))
+`},
+ "ring-buffers":{python:`# SPSC ring buffer concept
+class RingBuffer:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.buffer = [None] * capacity
+        self.read = 0
+        self.write = 0
+        self.size = 0
+
+    def push(self, x):
+        if self.size == self.capacity: return False
+        self.buffer[self.write] = x
+        self.write = (self.write + 1) % self.capacity
+        self.size += 1
+        return True
+
+    def pop(self):
+        if self.size == 0: return None
+        x = self.buffer[self.read]
+        self.read = (self.read + 1) % self.capacity
+        self.size -= 1
+        return x
+
+
+rb = RingBuffer(4)
+for i in range(4):
+    rb.push(i)
+print("full, push 9:", rb.push(9))
+while rb.size:
+    print(rb.pop(), end=" ")
+print()
+`},
+ "treiber-stack":{python:`# Treiber stack concept
+# push: new.next = head; CAS(head, old_head, new)
+# pop: old_head = head; new = old_head.next; CAS(head, old_head, new)
+
+# ABA problem requires tagged pointers or hazard pointers.
+print("Treiber stack: lock-free LIFO stack")
+`},
+ "michael-scott":{python:`# Michael-Scott queue concept
+# Lock-free MPMC queue with a dummy head.
+# Enqueue CASes tail.next.
+# Dequeue CASes head.
+
+print("Michael-Scott queue: lock-free MPMC queue")
+`},
+ "hazard-epoch":{python:`# Hazard pointers and epoch reclamation
+# Hazard pointers: each thread publishes the pointers it is reading.
+# Epoch reclamation: retire objects at the current epoch.
+
+print("Safe memory reclamation for lock-free structures")
+`},
+ "fifo-lru":{python:`from collections import OrderedDict
+
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.cache = OrderedDict()
+
+    def get(self, k):
+        if k not in self.cache: return None
+        self.cache.move_to_end(k)
+        return self.cache[k]
+
+    def put(self, k, v):
+        if k in self.cache:
+            self.cache.move_to_end(k)
+        self.cache[k] = v
+        if len(self.cache) > self.capacity:
+            self.cache.popitem(last=False)
+
+
+c = LRUCache(3)
+c.put("A", 1)
+c.put("B", 2)
+c.put("C", 3)
+print("get A:", c.get("A"))
+c.put("D", 4)
+print("get B:", c.get("B"))
+print("keys:", list(c.cache.keys()))
+`},
+ "lfu":{python:`from collections import defaultdict
+
+
+class LFUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.cache = {}
+        self.freq = defaultdict(int)
+
+    def get(self, k):
+        if k not in self.cache: return None
+        self.freq[k] += 1
+        return self.cache[k]
+
+    def put(self, k, v):
+        if k in self.cache:
+            self.cache[k] = v
+            self.freq[k] += 1
+        else:
+            if len(self.cache) >= self.capacity:
+                victim = min(self.cache, key=lambda x: self.freq[x])
+                del self.cache[victim]
+                del self.freq[victim]
+            self.cache[k] = v
+            self.freq[k] = 1
+
+
+c = LFUCache(3)
+c.put("A", 1)
+c.get("A")
+c.put("B", 2)
+c.put("C", 3)
+c.put("D", 4)
+print("get A:", c.get("A"))
+print("get B:", c.get("B"))
+print("keys:", list(c.cache.keys()))
+`},
+ "arc":{python:`# ARC cache sketch
+# Two lists T1 (recent) and T2 (frequent), plus ghost lists B1 and B2.
+# On hit in T1, move to T2.
+# On miss in B1, increase T1 target (recency).
+# On miss in B2, increase T2 target (frequency).
+
+print("ARC cache: adaptive, balances recency and frequency")
+`},
+ "lirs-tinylfu":{python:`# TinyLFU sketch
+# Uses a count-min sketch for frequency estimation.
+# Admits a new key only if it is more frequent than the victim.
+
+print("TinyLFU: admission policy for high-performance caches")
+`},
+ "sieve":{python:`# SIEVE cache sketch
+# FIFO with visited bits and a moving hand.
+# Simple and gives near-LRU hit rate.
+
+class SIEVECache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.cache = {}
+        self.visited = {}
+        self.queue = []
+
+    def get(self, k):
+        if k not in self.cache: return None
+        self.visited[k] = True
+        return self.cache[k]
+
+    def put(self, k, v):
+        if k in self.cache:
+            self.cache[k] = v
+            self.visited[k] = True
+            return
+        if len(self.cache) >= self.capacity:
+            while self.queue:
+                victim = self.queue[0]
+                if self.visited.get(victim, False):
+                    self.visited[victim] = False
+                    self.queue.append(self.queue.pop(0))
+                else:
+                    self.queue.pop(0)
+                    del self.cache[victim]
+                    del self.visited[victim]
+                    break
+        self.cache[k] = v
+        self.visited[k] = False
+        self.queue.append(k)
+
+
+c = SIEVECache(4)
+for k in ["A", "B", "C", "D", "E"]:
+    c.put(k, k)
+print("keys:", list(c.cache.keys()))
+`},
+ "belady":{python:`def belady(sequence, capacity):
+    cache = set()
+    misses = 0
+    for i, x in enumerate(sequence):
+        if x in cache: continue
+        misses += 1
+        if len(cache) >= capacity:
+            # evict the item used farthest in the future
+            victim = None
+            farthest = -1
+            for k in cache:
+                try:
+                    next_use = sequence.index(k, i + 1)
+                except ValueError:
+                    next_use = float('inf')
+                if next_use > farthest:
+                    farthest = next_use
+                    victim = k
+            cache.remove(victim)
+        cache.add(x)
+    return misses
+
+
+seq = ["A", "B", "C", "A", "B", "D", "A", "C", "B", "D"]
+print("Belady misses (capacity 3):", belady(seq, 3))
+`},
 };
 
 /* ============================================================
@@ -2108,7 +4282,7 @@ function renderLesson(id){
  state.page='lesson';state.current=id;
  const c=getChapter(id);const index=LESSONS.indexOf(l);const next=LESSONS[(index+1)%LESSONS.length];
  const hasDemo=l.demo&&l.demo!=='none';
- const demoArea=hasDemo?`<section class="panel"><div class="panel-head"><h2>${esc(l.demoTitle||'Interactive teaching lab')}</h2><p>Everything runs in your browser. This is a teaching implementation, not a production data structure.</p></div><div class="body"><div class="lab-top"><label for="labInput">Input</label><button class="btn" id="resetSample">Reset sample</button><button class="btn primary" id="runLab">Run lab</button></div><textarea class="lab-input" id="labInput" aria-label="Lab input">${esc(l.sample||'')}</textarea><div class="notice info"><strong>Format:</strong> see the sample for the expected format. Most labs take one operation per line.</div><div class="lab-cols"><div><div class="label">Output</div><div class="lab-output" id="labEncoded">Run the lab to see output.</div></div><div><div class="label">Explanation</div><div class="lab-output" id="labDecoded">Step notes appear here.</div></div></div></div></section>`:'';
+ const demoArea=hasDemo?`<section class="panel"><div class="panel-head"><h2>${esc(l.demoTitle||'Interactive teaching lab')}</h2><p>Everything runs in your browser. This is a teaching implementation, not a production data structure.</p></div><div class="body"><div class="lab-top"><label for="labInput">Input</label><button class="btn" id="resetSample" type="button">Reset sample</button><button class="btn primary" id="runLab" type="button">Run lab</button></div><textarea class="lab-input" id="labInput" aria-label="Lab input">${esc(l.sample||'')}</textarea><div class="notice info"><strong>Format:</strong> see the sample for the expected format. Most labs take one operation per line.</div><div class="lab-cols"><div><div class="label">Output</div><div class="lab-output" id="labEncoded">Run the lab to see output.</div></div><div><div class="label">Explanation</div><div class="lab-output" id="labDecoded">Step notes appear here.</div></div></div></div></section>`:'';
  const references=refsHTML(l.refs);
  const code=state.drafts[id]??codeText(l);
  $('#mainView').innerHTML=`<div class="breadcrumb">Data Structures Lab / ${esc(c.title)}</div>
@@ -2118,8 +4292,8 @@ function renderLesson(id){
  <p>${esc(l.summary)}</p>
  <div class="tags"><span class="tag">Level ${l.level}</span><span class="tag ${statusClass(l)}">${esc(l.status)}</span><span class="tag">${esc(c.title.replace(/^\d+\.\s*/,''))}</span></div>
  <div class="header-actions">
-  <button class="btn" id="bookmarkBtn">${state.bookmarks.has(id)?'★ Bookmarked':'☆ Bookmark'}</button>
-  <button class="btn primary" id="completeBtn">${state.completed.has(id)?'✓ Completed':'Mark complete'}</button>
+  <button class="btn" id="bookmarkBtn" type="button">${state.bookmarks.has(id)?'★ Bookmarked':'☆ Bookmark'}</button>
+  <button class="btn primary" id="completeBtn" type="button">${state.completed.has(id)?'✓ Completed':'Mark complete'}</button>
  </div>
 </header>
 <section class="panel"><div class="panel-head"><h2>1. Understand the idea</h2><p>Plain language and a mental picture</p></div><div class="body idea"><div><p>${esc(l.summary)}</p><p><strong>What problem it solves:</strong> ${esc(l.problem)}</p><div class="takeaway"><strong>Takeaway:</strong> ${esc(l.output)}</div></div><aside class="mental"><small>Mental picture</small><strong>${esc(l.mental)}</strong><p>${esc(l.mentalText)}</p></aside></div></section>
@@ -2127,11 +4301,11 @@ function renderLesson(id){
 <section class="panel"><div class="panel-head"><h2>3. How it works</h2><p>Step by step, with the key rule that makes it correct</p></div><div class="body two"><div>${listToHTML(l.steps)}<div class="takeaway" style="margin-top:14px"><strong>Key rule:</strong> ${esc(l.invariant)}</div></div><pre class="pseudo">${esc(l.pseudo)}</pre></div><div class="table-wrap" style="margin-top:16px"><table><thead><tr><th>Step</th><th>What happens</th><th>Why it matters</th></tr></thead><tbody>${l.trace.map(r=>`<tr>${r.map(v=>`<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section>
 ${demoArea}
 <section class="panel"><div class="panel-head"><h2>4. Cost and stability</h2><p>Costs depend on the operation mix, cache behavior and workload. These are scope labels, not universal benchmarks.</p></div><div class="body"><div class="tiles">${l.complexity.map((x,i)=>`<div class="tile"><span>${['Time','Space','Interpretation'][i]}</span><strong>${esc(x.split(' ').slice(0,2).join(' '))}</strong><small>${esc(x)}</small></div>`).join('')}</div><div class="two" style="margin-top:12px"><div class="mini"><h3>Strengths</h3><p>${esc(l.strength)}</p></div><div class="mini"><h3>Limits</h3><p>${esc(l.limits)}</p></div></div></div></section>
-<section class="panel"><div class="panel-head"><h2>5. Code and usage</h2><p>Reference code is for learning. Real code should use a vetted library.</p></div><div class="code-head"><div><span class="tag">${codeRecord(l)?'Python example':'Concept outline, not executable'}</span> <span class="tag">Editable</span></div><div class="header-actions" style="margin:0"><button class="btn" id="copyCode">Copy code</button><button class="btn" id="downloadCode">Download</button></div></div><textarea id="codeEditor" class="code-editor" spellcheck="false" aria-label="Editable Python code">${esc(code)}</textarea><div class="code-foot"><span>${codeRecord(l)?'Reference example. The in-page lab runs its own JavaScript implementation.':'Lesson-specific outline, not an implementation.'}</span><span id="codeStatus">Local draft</span></div><div class="body"><div class="mini"><h3>Where it is used</h3><p>${esc(l.uses)}</p></div><div class="notice" style="margin-top:12px"><strong>Common pitfall:</strong> ${esc(l.pitfall)}</div></div></section>
+<section class="panel"><div class="panel-head"><h2>5. Code and usage</h2><p>Reference code is for learning. Real code should use a vetted library.</p></div><div class="code-head"><div><span class="tag">${codeRecord(l)?'Python example':'Concept outline, not executable'}</span> <span class="tag">Editable</span></div><div class="header-actions" style="margin:0"><button class="btn" id="copyCode" type="button">Copy code</button><button class="btn" id="downloadCode" type="button">Download</button></div></div><textarea id="codeEditor" class="code-editor" spellcheck="false" aria-label="Editable Python code">${esc(code)}</textarea><div class="code-foot"><span>${codeRecord(l)?'Reference example. The in-page lab runs its own JavaScript implementation.':'Lesson-specific outline, not an implementation.'}</span><span id="codeStatus">Local draft</span></div><div class="body"><div class="mini"><h3>Where it is used</h3><p>${esc(l.uses)}</p></div><div class="notice" style="margin-top:12px"><strong>Common pitfall:</strong> ${esc(l.pitfall)}</div></div></section>
 <section class="panel"><div class="panel-head"><h2>6. Choices and alternatives</h2><p>Pick based on the operation mix, memory budget and workload</p></div><div class="body two"><div class="mini"><h3>When to use this</h3><p>${esc(l.strength)}</p></div><div class="mini"><h3>When to use something else</h3><p>${esc(l.limits)}</p></div></div></section>
 <section class="panel"><div class="panel-head"><h2>7. Check yourself</h2><p>Try to answer before you open the explanation</p></div><div class="body"><details class="practice"><summary>${esc(l.question)}</summary><p>${esc(l.answer)}</p></details></div></section>
 <section class="panel"><div class="panel-head"><h2>8. References</h2><p>Standard references for this topic</p></div><div class="body">${references}<p class="muted" style="font-size:11.5px;margin-top:14px">The labs on this page are teaching implementations. For production work use your language's standard library or a vetted library.</p></div></section>
-<footer class="footer"><span>Az Data Structures Lab · local learning</span><span>Lesson ${index+1} of ${LESSONS.length} · Next: ${esc(next.title)}</span><button class="btn" id="nextLesson">Next →</button></footer>`;
+<footer class="footer"><span>Az Data Structures Lab · local learning</span><span>Lesson ${index+1} of ${LESSONS.length} · Next: ${esc(next.title)}</span><button class="btn" id="nextLesson" type="button">Next →</button></footer>`;
 
  $('#bookmarkBtn').onclick=()=>{state.bookmarks.has(id)?state.bookmarks.delete(id):state.bookmarks.add(id);save();renderLesson(id);toast(state.bookmarks.has(id)?'Bookmarked':'Bookmark removed')};
  $('#completeBtn').onclick=()=>{state.completed.has(id)?state.completed.delete(id):state.completed.add(id);save();renderTree();renderLesson(id);toast(state.completed.has(id)?'Lesson completed':'Completion removed')};
@@ -2150,10 +4324,10 @@ ${demoArea}
 
 function renderHome(){
  state.page='home';
- $('#mainView').innerHTML=`<div class="home-hero"><div class="eyebrow">AZ · ENGINEERING TOOLBOOK</div><h1>Understand data structures from arrays to lock-free caches.</h1><p>A beginner friendly course covering fundamentals, hashing, trees, heaps, range-query structures, offline queries, disjoint sets, text and immutable structures, succinct structures, concurrent structures, and caching. Every lesson has a plain explanation and most have a runnable lab.</p><div class="header-actions" style="margin:0"><button class="btn primary" id="startFirst">Start at the beginning</button><button class="btn" id="resumeLesson">Continue lesson</button></div></div>
-<div class="stats"><div class="stat"><strong>${CHAPTERS.length}</strong><span>chapters</span></div><div class="stat"><strong>${LESSONS.length}</strong><span>lessons</span></div><div class="stat"><strong>${LESSONS.filter(l=>l.demo&&l.demo!=='none').length}</strong><span>runnable labs</span></div><div class="stat"><strong>1</strong><span>standalone HTML file</span></div></div>
+ $('#mainView').innerHTML=`<div class="home-hero"><div class="eyebrow">AZ · ENGINEERING TOOLBOOK</div><h1>Understand data structures from arrays to lock-free caches.</h1><p>A beginner friendly course covering fundamentals, hashing, trees, heaps, range-query structures, offline queries, disjoint sets, text and immutable structures, succinct structures, concurrent structures, and caching. Every lesson has a plain explanation and most have a runnable lab.</p><div class="header-actions" style="margin:0"><button class="btn primary" id="startFirst" type="button">Start at the beginning</button><button class="btn" id="resumeLesson" type="button">Continue lesson</button></div></div>
+<div class="stats"><div class="stat"><strong>${CHAPTERS.length}</strong><span>chapters</span></div><div class="stat"><strong>${LESSONS.length}</strong><span>lessons</span></div><div class="stat"><strong>${LESSONS.filter(l=>l.demo&&l.demo!=='none').length}</strong><span>runnable labs</span></div><div class="stat"><strong>1</strong><span>standalone file</span></div></div>
 <section class="panel"><div class="panel-head"><h2>Honest scope</h2><p>One app covers the whole curriculum. Production data structure libraries are a separate engineering project.</p></div><div class="body two"><div class="mini"><h3>What runs here</h3><p>Dynamic array, linked list, stack, queue, deque, hash table, hash set, Bloom filter, cuckoo filter, binary tree traversals, BST, AVL tree, red-black tree (colour demo), treap, B-tree, B+ tree, trie, binary heap, d-ary heap, prefix sums, Fenwick tree, segment tree, lazy segment tree, sparse table, Mo's algorithm, order-statistic tree, union-find, rollback DSU, gap buffer, rank/select, van Emde Boas tree, Li Chao tree, ring buffer, LRU cache, LFU cache, SIEVE cache, and Belady's optimal algorithm.</p></div><div class="mini"><h3>What does not run here</h3><p>Production implementations of 2-3-4 trees, binomial heaps, Fibonacci heaps, pairing heaps, radix heaps, soft heaps, wavelet trees, persistent segment trees, link-cut trees, Euler-tour trees, ropes, piece tables, finger trees, persistent vectors, HAMTs, x-fast/y-fast tries, Treiber stacks, Michael-Scott queues, hazard pointers, ARC, 2Q, LIRS, TinyLFU, S3-FIFO, and other advanced structures. Use your language's standard library or a vetted library for those.</p></div></div></section>
-<div class="panel"><div class="panel-head"><h2>Course map</h2><p>Pick a chapter. The path runs from fundamentals to caching.</p></div><div class="body"><div class="chapter-cards">${CHAPTERS.map((c,i)=>`<button class="chapter-card" data-chapter="${c.id}"><span class="num">CHAPTER ${String(i+1).padStart(2,'0')} · ${c.ids.length} LESSONS</span><strong>${esc(c.title.replace(/^\d+\.\s*/,''))}</strong><p>${esc(c.desc)}</p></button>`).join('')}</div></div></div>
+<div class="panel"><div class="panel-head"><h2>Course map</h2><p>Pick a chapter. The path runs from fundamentals to caching.</p></div><div class="body"><div class="chapter-cards">${CHAPTERS.map((c,i)=>`<button class="chapter-card" type="button" data-chapter="${c.id}"><span class="num">CHAPTER ${String(i+1).padStart(2,'0')} · ${c.ids.length} LESSONS</span><strong>${esc(c.title.replace(/^\d+\.\s*/,''))}</strong><p>${esc(c.desc)}</p></button>`).join('')}</div></div></div>
 <footer class="footer"><span>Az Data Structures Lab</span><span>Single file · no external runtime dependencies</span></footer>`;
  $('#startFirst').onclick=()=>openLesson('arrays');
  $('#resumeLesson').onclick=()=>openLesson(state.current&&byId[state.current]?state.current:'arrays');
@@ -2165,7 +4339,7 @@ function renderProgressPage(){
  $('#mainView').innerHTML=`<div class="breadcrumb">Data Structures Lab / Bookmarks & progress</div><header class="header"><div class="eyebrow">LOCAL ONLY</div><h1>Bookmarks and progress</h1><p>Your progress stays in this browser. Export the JSON to move it or keep a backup.</p></header>
 <section class="panel"><div class="panel-head"><h2>Completed lessons</h2></div><div class="body">${state.completed.size?`<div class="references">${[...state.completed].map(id=>`<a href="#${id}" data-open="${id}">${esc(byId[id].title)}</a>`).join('')}</div>`:'<p class="muted">No lessons marked complete yet.</p>'}</div></section>
 <section class="panel"><div class="panel-head"><h2>Bookmarks</h2></div><div class="body">${state.bookmarks.size?`<div class="references">${[...state.bookmarks].map(id=>`<a href="#${id}" data-open="${id}">${esc(byId[id].title)}</a>`).join('')}</div>`:'<p class="muted">No bookmarks yet.</p>'}</div></section>
-<section class="panel"><div class="panel-head"><h2>Progress data</h2></div><div class="body"><div class="header-actions" style="margin:0"><button class="btn primary" id="exportProgress">Export progress JSON</button><button class="btn" id="clearProgress">Clear completion marks</button></div><p class="muted" style="font-size:12.5px;margin-top:14px">Import accepts only known lesson IDs and a supported schema version.</p></div></section>`;
+<section class="panel"><div class="panel-head"><h2>Progress data</h2></div><div class="body"><div class="header-actions" style="margin:0"><button class="btn primary" id="exportProgress" type="button">Export progress JSON</button><button class="btn" id="clearProgress" type="button">Clear completion marks</button></div><p class="muted" style="font-size:11.5px;margin-top:12px">Import accepts only known lesson IDs and a supported schema version.</p></div></section>`;
  $('#mainView').querySelectorAll('[data-open]').forEach(a=>a.onclick=e=>{e.preventDefault();openLesson(a.dataset.open)});
  $('#exportProgress').onclick=exportProgress;
  $('#clearProgress').onclick=()=>{if(confirm('Clear all completion marks?')){state.completed.clear();save();renderProgressPage();renderTree();toast('Completion marks cleared')}};
@@ -2227,4 +4401,6 @@ function init(){
  progress();
 }
 init();
-</script></body></html>
+</script>
+</body>
+</html>
